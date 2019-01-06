@@ -133,7 +133,7 @@ php-cs-fixer fix . --dry-run --diff --diff-format=udiff --rules=@Symfony
 You might also want to test that your changes do not break OAI compliance, using a validator, e.g.:
 
 * [http://validator.oaipmh.com](http://validator.oaipmh.com)
-* [OAI Repository Explorer](http://www.purl.org/NET/oai_explorer) (currently not responding)
+* [OAI Repository Explorer](http://www.purl.org/NET/oai_explorer)
 
 
 ## Author
