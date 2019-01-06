@@ -26,6 +26,9 @@ class Oai_Utils
      */
     public static function supported_encoding()
     {
+        if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+            return array();
+        }
         return array_diff(array_map('trim', explode(',', $_SERVER['HTTP_ACCEPT_ENCODING'])), array('identity'));
     }
 
