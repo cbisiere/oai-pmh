@@ -86,7 +86,7 @@ The identifier of this repository in the database is `myrepo`. The repository do
 
 To be able to browse this repository using a web browser, you need a custom PHP script. 
 
-The script `public/oai2.php` is customised for the `demo` repository. If you want to reuse it for your new repository, edit it and and change le line:
+The script `public/oai2.php` is customised for the `demo` repository. If you want to reuse it for your new repository, edit it and and change the line:
 
 ```php
 define('REPO_ID', 'demo');
