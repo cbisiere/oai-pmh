@@ -59,7 +59,7 @@ class Oai_Backend
      */
     public static function inClause($field, $values)
     {
-        return $this->_connection->inClause($field, $values);
+        return Oai_Connection::inClause($field, $values);
     }
 
     /**
