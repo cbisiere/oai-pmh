@@ -54,7 +54,7 @@ class Oai
      * Arguments passed through the URL.
      */
     /** @var string[] Arguments */
-    private $_args = array();
+    private $_args = [];
     /** @var Oai_Token|null Continuation token */
     private $_arg_token = null;
     /** @var Oai_Date|null From date */
@@ -129,7 +129,7 @@ class Oai
         $this->_logger = new Oai_Logger(
             $this->_connection,
             $this->_repo
-            );
+        );
 
         $this->_stylesheet = $stylesheet;
 
@@ -145,9 +145,8 @@ class Oai
 
         $limit = $f['maxListSize'];
         if (isset($limit)) {
-            if ((!ctype_digit((string)$limit)) || ($limit <= 0)) {
-                throw new
-                    Exception('Corrupted data: maximum size of incomplete lists must be a positive integer');
+            if ((!ctype_digit((string) $limit)) || ($limit <= 0)) {
+                throw new Exception('Corrupted data: maximum size of incomplete lists must be a positive integer');
             }
             $this->_repo_list_size = $limit;
         }
@@ -160,10 +159,7 @@ class Oai
         if ((Oai_Const::FORMAT_DATE !== $format)
             && (Oai_Const::FORMAT_DATETIME_TZ !== $format)
         ) {
-            throw new
-                Exception(
-                    'Corrupted data: date format not supported by the protocol'
-                );
+            throw new Exception('Corrupted data: date format not supported by the protocol');
         }
         $this->_repo_date_format = $format;
 
@@ -177,8 +173,7 @@ class Oai
             && (Oai_Const::DEL_SUPPORT_TRANSIENT !== $deletion)
             && (Oai_Const::DEL_SUPPORT_PERSISTENT !== $deletion)
         ) {
-            throw new
-                Exception('Corrupted data: deletion support mode is unknown');
+            throw new Exception('Corrupted data: deletion support mode is unknown');
         }
         $this->_repo_deletion_support = $deletion;
         $this->_no_deleted = (Oai_Const::DEL_SUPPORT_NO == $deletion);
@@ -199,10 +194,10 @@ class Oai
     /**
      * Return an array containing repository information.
      *
+     * @return string[] Repository information
+     *
      * @throws Exception when the repository table does not contain exactly one
      *                   record
-     *
-     * @return string[] Repository information
      */
     private function _getRepoData()
     {
@@ -210,19 +205,11 @@ class Oai
         $f = $result->fetch();
 
         if (false === $f) {
-            throw new
-                    Exception(
-                        'Corrupted data:'
-                        ." could not find identity data for repository with id {$this->_repo}"
-                        );
+            throw new Exception('Corrupted data:'." could not find identity data for repository with id {$this->_repo}");
         }
 
         if (false != $result->fetch()) {
-            throw new
-                Exception(
-                    'Corrupted data:'
-                    ." multiple identity data found for repository with id {$this->_repo}"
-                );
+            throw new Exception('Corrupted data:'." multiple identity data found for repository with id {$this->_repo}");
         }
 
         return $f;
@@ -263,7 +250,7 @@ class Oai
      */
     private function _setArg($k, $v)
     {
-        $keys = array(
+        $keys = [
             Oai_Const::ARG_FROM,
             Oai_Const::ARG_IDENTIFIER,
             Oai_Const::ARG_METADATA_PREFIX,
@@ -271,7 +258,7 @@ class Oai
             Oai_Const::ARG_TOKEN,
             Oai_Const::ARG_UNTIL,
             Oai_Const::ARG_VERB,
-        );
+        ];
 
         if (!in_array($k, $keys)) {
             throw new Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT, "Unknown argument: $k");
@@ -310,7 +297,7 @@ class Oai
      *
      * @throws Oai_Exception when the OAI request violates this check
      */
-    private function _doCheckArgSet($r = array(), $o = array())
+    private function _doCheckArgSet($r = [], $o = [])
     {
         $r[] = Oai_Const::ARG_VERB;		/* always mandatory */
         $a = array_merge($r, $o);	/* all arguments */
@@ -318,16 +305,14 @@ class Oai
         /* Look for arguments not allowed */
         foreach ($this->_args as $k => $v) {
             if (!in_array($k, $a)) {
-                throw new
-                    Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT, "Argument not allowed: $k");
+                throw new Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT, "Argument not allowed: $k");
             }
         }
 
         /* Look for missing required arguments */
         foreach ($r as $k) {
             if (false === $this->_getArg($k)) {
-                throw new
-                    Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT, "Missing argument: $k");
+                throw new Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT, "Missing argument: $k");
             }
         }
     }
@@ -340,11 +325,7 @@ class Oai
     private function _doCheckFlowControlIsSupported()
     {
         if (!isset($this->_repo_list_size)) {
-            throw new Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT,
-                'Argument '
-                .Oai_Const::ARG_TOKEN
-                .' not allowed: flow control is a feature not supported by this repository'
-            );
+            throw new Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT, 'Argument '.Oai_Const::ARG_TOKEN.' not allowed: flow control is a feature not supported by this repository');
         }
     }
 
@@ -367,42 +348,42 @@ class Oai
 
         /* Check arguments, depending on the verb */
         switch ($verb) {
-        case Oai_Const::VERB_IDENTIFY:
-            $this->_doCheckArgSet();
-            break;
+            case Oai_Const::VERB_IDENTIFY:
+                $this->_doCheckArgSet();
+                break;
 
-        case Oai_Const::VERB_LISTSETS:
-            if (false !== $this->_getArg(Oai_Const::ARG_TOKEN)) {
-                $this->_doCheckFlowControlIsSupported();
-            }
-            $this->_doCheckArgSet(array(), array(Oai_Const::ARG_TOKEN));
-            break;
+            case Oai_Const::VERB_LISTSETS:
+                if (false !== $this->_getArg(Oai_Const::ARG_TOKEN)) {
+                    $this->_doCheckFlowControlIsSupported();
+                }
+                $this->_doCheckArgSet([], [Oai_Const::ARG_TOKEN]);
+                break;
 
-        case Oai_Const::VERB_LISTMETADATAFORMATS:
-            $this->_doCheckArgSet(array(), array(Oai_Const::ARG_IDENTIFIER));
-            break;
+            case Oai_Const::VERB_LISTMETADATAFORMATS:
+                $this->_doCheckArgSet([], [Oai_Const::ARG_IDENTIFIER]);
+                break;
 
-        case Oai_Const::VERB_GETRECORD:
-            $this->_doCheckArgSet(
-                array(Oai_Const::ARG_IDENTIFIER, Oai_Const::ARG_METADATA_PREFIX)
-            );
-            break;
-
-        case Oai_Const::VERB_LISTRECORDS:
-        case Oai_Const::VERB_LISTIDENTIFIERS:
-            if (false !== $this->_getArg(Oai_Const::ARG_TOKEN)) {
-                $this->_doCheckFlowControlIsSupported();
-                $this->_doCheckArgSet(array(Oai_Const::ARG_TOKEN));
-            } else {
+            case Oai_Const::VERB_GETRECORD:
                 $this->_doCheckArgSet(
-                    array(Oai_Const::ARG_METADATA_PREFIX),
-                    array(Oai_Const::ARG_SET, Oai_Const::ARG_FROM, Oai_Const::ARG_UNTIL)
+                    [Oai_Const::ARG_IDENTIFIER, Oai_Const::ARG_METADATA_PREFIX]
                 );
-            }
-            break;
+                break;
 
-        default:
-            throw new Oai_Exception(Oai_Const::ERROR_BAD_VERB, "Unknown verb: $verb");
+            case Oai_Const::VERB_LISTRECORDS:
+            case Oai_Const::VERB_LISTIDENTIFIERS:
+                if (false !== $this->_getArg(Oai_Const::ARG_TOKEN)) {
+                    $this->_doCheckFlowControlIsSupported();
+                    $this->_doCheckArgSet([Oai_Const::ARG_TOKEN]);
+                } else {
+                    $this->_doCheckArgSet(
+                        [Oai_Const::ARG_METADATA_PREFIX],
+                        [Oai_Const::ARG_SET, Oai_Const::ARG_FROM, Oai_Const::ARG_UNTIL]
+                    );
+                }
+                break;
+
+            default:
+                throw new Oai_Exception(Oai_Const::ERROR_BAD_VERB, "Unknown verb: $verb");
         }
     }
 
@@ -418,7 +399,7 @@ class Oai
     {
         /* Format of the date is allowed */
 
-        $formats = array(Oai_Const::FORMAT_DATE, Oai_Const::FORMAT_DATETIME_TZ);
+        $formats = [Oai_Const::FORMAT_DATE, Oai_Const::FORMAT_DATETIME_TZ];
         if (!in_array($oDate->getFormat(), $formats)) {
             throw new Oai_Exception($err, 'Invalid date format');
         }
@@ -428,8 +409,7 @@ class Oai
         if ((Oai_Const::FORMAT_DATE === $this->_repo_date_format)
             && (Oai_Const::FORMAT_DATE !== $oDate->getFormat())
         ) {
-            throw new
-                Oai_Exception($err, 'Date format not supported by the repository');
+            throw new Oai_Exception($err, 'Date format not supported by the repository');
         }
     }
 
@@ -450,13 +430,11 @@ class Oai
     ) {
         if ((isset($oFrom)) && (isset($oUntil))) {
             if ($oFrom->getFormat() !== $oUntil->getFormat()) {
-                throw new
-                    Oai_Exception($err, 'Date range must have the same format');
+                throw new Oai_Exception($err, 'Date range must have the same format');
             }
 
             if ($oFrom->toUnixTime() > $oUntil->toUnixTime()) {
-                throw new
-                    Oai_Exception($err, 'Date range has negative length');
+                throw new Oai_Exception($err, 'Date range has negative length');
             }
         }
     }
@@ -474,12 +452,7 @@ class Oai
         $err = Oai_Const::ERROR_CANNOT_DISSEMINATE
     ) {
         if (!$this->_backend->metadataPrefixExists($metadataPrefix)) {
-            throw new
-                Oai_Exception(
-                    $err,
-                    'This metadata format is not supported by the repository: '
-                        .$metadataPrefix
-                );
+            throw new Oai_Exception($err, 'This metadata format is not supported by the repository: '.$metadataPrefix);
         }
     }
 
@@ -513,8 +486,7 @@ class Oai
     private function _checkSetSpec($setSpec, $err = Oai_Const::ERROR_NO_RECORDS)
     {
         if (!$this->_backend->setSpecExists($setSpec)) {
-            throw new
-                Oai_Exception($err, 'This set is not supported by the repository');
+            throw new Oai_Exception($err, 'This set is not supported by the repository');
         }
     }
 
@@ -563,11 +535,7 @@ class Oai
         /* The datestamp must have the same granularity as the repository */
         $this->_checkDate($oDatestamp, $err);
         if ($this->_repo_date_format !== $oDatestamp->getFormat()) {
-            throw new
-                Oai_Exception(
-                    $err,
-                    'The datestamp must have the same granularity as the repository'
-                );
+            throw new Oai_Exception($err, 'The datestamp must have the same granularity as the repository');
         }
 
         if (false !== $metadataPrefix) {
@@ -603,14 +571,14 @@ class Oai
      */
     private function _checkVerb($verb, $err = Oai_Const::ERROR_BAD_VERB)
     {
-        $verbs = array(
+        $verbs = [
             Oai_Const::VERB_GETRECORD,
             Oai_Const::VERB_IDENTIFY,
             Oai_Const::VERB_LISTIDENTIFIERS,
             Oai_Const::VERB_LISTMETADATAFORMATS,
             Oai_Const::VERB_LISTRECORDS,
             Oai_Const::VERB_LISTSETS,
-        );
+        ];
 
         if (!in_array($verb, $verbs)) {
             throw new Oai_Exception($err, "Unknown verb: $verb");
@@ -624,9 +592,9 @@ class Oai
      * @param string $err    the OAI error code when the check fails
      * @param string $prompt a short sentence indicating why the date is invalid
      *
-     * @throws Oai_Exception when the date is invalid
-     *
      * @return Oai_Date the object representing the parsed date
+     *
+     * @throws Oai_Exception when the date is invalid
      */
     private static function _parseDate(
         $str,
@@ -647,9 +615,9 @@ class Oai
      *
      * @param string $str the token to parse
      *
-     * @throws Oai_Exception when the token cannot be parsed
-     *
      * @return Oai_Token the object representing the parsed token
+     *
+     * @throws Oai_Exception when the token cannot be parsed
      */
     private static function _parseToken($str)
     {
@@ -658,11 +626,7 @@ class Oai
 
             return $obj;
         } catch (Exception $e) {
-            throw new
-                Oai_Exception(
-                    Oai_Const::ERROR_BAD_TOKEN,
-                    "Invalid token: {$e->getMessage()}"
-                );
+            throw new Oai_Exception(Oai_Const::ERROR_BAD_TOKEN, "Invalid token: {$e->getMessage()}");
         }
     }
 
@@ -676,37 +640,36 @@ class Oai
     {
         foreach ($this->_getArgSet() as $k => $v) {
             if ('' === $v) {
-                throw new
-                    Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT, "Argument is empty: $k");
+                throw new Oai_Exception(Oai_Const::ERROR_BAD_ARGUMENT, "Argument is empty: $k");
             }
 
             switch ($k) {
-            case Oai_Const::ARG_TOKEN:
-                $oToken = self::_parseToken($v);
-                $this->_checkToken($oToken);
+                case Oai_Const::ARG_TOKEN:
+                    $oToken = self::_parseToken($v);
+                    $this->_checkToken($oToken);
 
-                $this->_arg_token = $oToken;
-                break;
+                    $this->_arg_token = $oToken;
+                    break;
 
-            case Oai_Const::ARG_FROM:
-                $oDate = self::_parseDate($v);
-                $this->_checkDate($oDate);
+                case Oai_Const::ARG_FROM:
+                    $oDate = self::_parseDate($v);
+                    $this->_checkDate($oDate);
 
-                $this->_arg_from = $oDate;
-                break;
+                    $this->_arg_from = $oDate;
+                    break;
 
-            case Oai_Const::ARG_UNTIL:
-                $oDate = self::_parseDate($v);
-                $this->_checkDate($oDate);
+                case Oai_Const::ARG_UNTIL:
+                    $oDate = self::_parseDate($v);
+                    $this->_checkDate($oDate);
 
-                $this->_arg_until = $oDate;
-                break;
+                    $this->_arg_until = $oDate;
+                    break;
 
-            case Oai_Const::ARG_VERB:
-                $this->_checkVerb($v);
-                break;
+                case Oai_Const::ARG_VERB:
+                    $this->_checkVerb($v);
+                    break;
 
-            default:
+                default:
             }
         }
     }
@@ -718,19 +681,19 @@ class Oai
     {
         foreach ($this->_getArgSet() as $k => $v) {
             switch ($k) {
-            case Oai_Const::ARG_METADATA_PREFIX:
-                $this->_checkMetadataPrefix($v);
-                break;
+                case Oai_Const::ARG_METADATA_PREFIX:
+                    $this->_checkMetadataPrefix($v);
+                    break;
 
-            case Oai_Const::ARG_IDENTIFIER:
-                $this->_checkIdentifier($v);
-                break;
+                case Oai_Const::ARG_IDENTIFIER:
+                    $this->_checkIdentifier($v);
+                    break;
 
-            case Oai_Const::ARG_SET:
-                $this->_checkSetSpec($v);
-                break;
+                case Oai_Const::ARG_SET:
+                    $this->_checkSetSpec($v);
+                    break;
 
-            default:
+                default:
             }
         }
     }
@@ -756,11 +719,7 @@ class Oai
                 $identifier,
                 $metadataPrefix
             )) {
-                throw new
-                    Oai_Exception(
-                        Oai_Const::ERROR_CANNOT_DISSEMINATE,
-                        'No such metadata format for this identifier'
-                    );
+                throw new Oai_Exception(Oai_Const::ERROR_CANNOT_DISSEMINATE, 'No such metadata format for this identifier');
             }
         }
 
@@ -782,11 +741,7 @@ class Oai
             && ((Oai_Const::VERB_LISTIDENTIFIERS == $verb)
                 || (Oai_Const::VERB_LISTRECORDS == $verb))
             && (false === $this->_arg_token->getMetadataPrefix())) {
-            throw new
-                Oai_Exception(
-                    Oai_Const::ERROR_BAD_TOKEN,
-                    'Invalid token for this verb: no metadata information'
-                );
+            throw new Oai_Exception(Oai_Const::ERROR_BAD_TOKEN, 'Invalid token for this verb: no metadata information');
         }
     }
 
@@ -843,11 +798,7 @@ class Oai
         libxml_use_internal_errors($state);
 
         if (!$success) {
-            throw new
-                Exception(
-                    'Corrupted data:'
-                    ." malformed XML fragment in {$node->tagName}"
-                );
+            throw new Exception('Corrupted data:'." malformed XML fragment in {$node->tagName}");
         }
 
         $node->appendChild($fragment);
@@ -893,10 +844,10 @@ class Oai
 
         $hpi = Xml_Utils::piAsString(
             'xml',
-            array(
+            [
                 'version' => '1.0',
                 'encoding' => 'UTF-8',
-            )
+            ]
         );
 
         /* XSL stylesheet processing instruction */
@@ -904,10 +855,10 @@ class Oai
         if (isset($this->_stylesheet)) {
             $pi = Xml_Utils::piAsString(
                 'xml-stylesheet',
-                array(
+                [
                     'type' => 'text/xsl',
                     'href' => $this->_stylesheet,
-                )
+                ]
             );
         }
 
@@ -936,10 +887,10 @@ class Oai
          *
          */
 
-        $errors = array(
+        $errors = [
             Oai_Const::ERROR_BAD_VERB,
             Oai_Const::ERROR_BAD_ARGUMENT,
-        );
+        ];
         if (!in_array($oai_error, $errors)) {
             foreach ($this->_args as $k => $v) {
                 $request->setAttribute($k, $v);
@@ -972,10 +923,10 @@ class Oai
          * Store parameters in the current log record
          */
         $this->_logger->storeRequestParam(
-            (false !== $verb ? $verb : null),
-            (false !== $metadataPrefix ? $metadataPrefix : null),
-            (false !== $setSpec ? $setSpec : null),
-            (false !== $identifier ? $identifier : null),
+            false !== $verb ? $verb : null,
+            false !== $metadataPrefix ? $metadataPrefix : null,
+            false !== $setSpec ? $setSpec : null,
+            false !== $identifier ? $identifier : null,
             $oFrom,
             $oUntil,
             $oToken
@@ -1010,107 +961,99 @@ class Oai
          * set $list_size and $complete_list_size when the request is a list request
          */
         switch ($verb) {
-        case Oai_Const::VERB_IDENTIFY:
+            case Oai_Const::VERB_IDENTIFY:
+                $f = $this->_getRepoData();
 
-            $f = $this->_getRepoData();
+                $this->_addChild($xverb, 'oai:repositoryName', $f['repositoryName']);
+                $this->_addChild($xverb, 'oai:baseURL', $this->_repo_baseurl);
+                $this->_addChild($xverb, 'oai:protocolVersion', '2.0');
 
-            $this->_addChild($xverb, 'oai:repositoryName', $f['repositoryName']);
-            $this->_addChild($xverb, 'oai:baseURL', $this->_repo_baseurl);
-            $this->_addChild($xverb, 'oai:protocolVersion', '2.0');
-
-            $emails = explode(',', $f['adminEmails']);
-            foreach ($emails as $e) {
-                $e = trim($e);
-                $this->_addChild($xverb, 'oai:adminEmail', $e);
-            }
-
-            $this->_addChild(
-                $xverb,
-                'oai:earliestDatestamp',
-                $f['earliestDatestamp']
-            );
-            $this->_addChild($xverb, 'oai:deletedRecord', $f['deletedRecord']);
-            $this->_addChild($xverb, 'oai:granularity', $f['granularity']);
-
-            /* 2017-08-11: compression */
-
-            foreach (Oai_Utils::supported_encoding() as $encoding) {
-                $this->_addChild($xverb, 'oai:compression', $encoding);
-            }
-
-            /* 2012-11-04: description records */
-
-            $r = $this->_backend->repoDescriptionSelect();
-            foreach ($r as $f) {
-                if (isset($f['description'])) {
-                    $description = $this->_addChild($xverb, 'oai:description');
-                    $this->_addFragment($description, $f['description']);
+                $emails = explode(',', $f['adminEmails']);
+                foreach ($emails as $e) {
+                    $e = trim($e);
+                    $this->_addChild($xverb, 'oai:adminEmail', $e);
                 }
-            }
 
-            break;
-
-        case Oai_Const::VERB_LISTMETADATAFORMATS:
-
-            $r = $this->_backend->metadataPrefixSelect($identifier);
-
-            foreach ($r as $f) {
-                $format = $this->_addChild($xverb, 'oai:metadataFormat');
                 $this->_addChild(
-                    $format,
-                    'oai:metadataPrefix',
-                    $f['metadataPrefix']
+                    $xverb,
+                    'oai:earliestDatestamp',
+                    $f['earliestDatestamp']
                 );
-                $this->_addChild($format, 'oai:schema', $f['schema']);
-                $this->_addChild(
-                    $format,
-                    'oai:metadataNamespace',
-                    $f['metadataNamespace']
-                );
-            }
+                $this->_addChild($xverb, 'oai:deletedRecord', $f['deletedRecord']);
+                $this->_addChild($xverb, 'oai:granularity', $f['granularity']);
 
-            break;
+                /* 2017-08-11: compression */
 
-        case Oai_Const::VERB_LISTSETS:
+                foreach (Oai_Utils::supported_encoding() as $encoding) {
+                    $this->_addChild($xverb, 'oai:compression', $encoding);
+                }
 
-            $r = $this->_backend->setSpecSelect(true);
-            $complete_list_size = $r->fetchColumn();
+                /* 2012-11-04: description records */
 
-            /* The complete list is empty */
-            if (0 == $complete_list_size) {
-                throw new
-                Oai_Exception(
-                    Oai_Const::ERROR_NO_SETS,
-                    'No sets are defined for this repository'
+                $r = $this->_backend->repoDescriptionSelect();
+                foreach ($r as $f) {
+                    if (isset($f['description'])) {
+                        $description = $this->_addChild($xverb, 'oai:description');
+                        $this->_addFragment($description, $f['description']);
+                    }
+                }
+
+                break;
+
+            case Oai_Const::VERB_LISTMETADATAFORMATS:
+                $r = $this->_backend->metadataPrefixSelect($identifier);
+
+                foreach ($r as $f) {
+                    $format = $this->_addChild($xverb, 'oai:metadataFormat');
+                    $this->_addChild(
+                        $format,
+                        'oai:metadataPrefix',
+                        $f['metadataPrefix']
                     );
-            }
-
-            $r = $this->_backend->setSpecSelect(false, $index, $this->_repo_list_size);
-            $list_size = 0;
-
-            foreach ($r as $f) {
-                ++$list_size;
-
-                $set = $this->_addChild($xverb, 'oai:set');
-                $this->_addChild($set, 'oai:setSpec', $f['setSpec']);
-                $this->_addChild($set, 'oai:setName', $f['setName']);
-
-                /* Descriptions (none, one or more) */
-                $rs = $this->_backend->setDescriptionSelect($f['setSpec']);
-                foreach ($rs as $fs) {
-                    $description = $this->_addChild($set, 'oai:setDescription');
-                    $this->_addFragment($description, $fs['setDescription']);
+                    $this->_addChild($format, 'oai:schema', $f['schema']);
+                    $this->_addChild(
+                        $format,
+                        'oai:metadataNamespace',
+                        $f['metadataNamespace']
+                    );
                 }
-            }
 
-            break;
+                break;
 
-        case Oai_Const::VERB_LISTRECORDS:
-        case Oai_Const::VERB_LISTIDENTIFIERS:
+            case Oai_Const::VERB_LISTSETS:
+                $r = $this->_backend->setSpecSelect(true);
+                $complete_list_size = $r->fetchColumn();
 
-            /* for list requests, we need the complete list size */
+                /* The complete list is empty */
+                if (0 == $complete_list_size) {
+                    throw new Oai_Exception(Oai_Const::ERROR_NO_SETS, 'No sets are defined for this repository');
+                }
 
-            $r = $this->_backend->metadataSelect(
+                $r = $this->_backend->setSpecSelect(false, $index, $this->_repo_list_size);
+                $list_size = 0;
+
+                foreach ($r as $f) {
+                    ++$list_size;
+
+                    $set = $this->_addChild($xverb, 'oai:set');
+                    $this->_addChild($set, 'oai:setSpec', $f['setSpec']);
+                    $this->_addChild($set, 'oai:setName', $f['setName']);
+
+                    /* Descriptions (none, one or more) */
+                    $rs = $this->_backend->setDescriptionSelect($f['setSpec']);
+                    foreach ($rs as $fs) {
+                        $description = $this->_addChild($set, 'oai:setDescription');
+                        $this->_addFragment($description, $fs['setDescription']);
+                    }
+                }
+
+                break;
+
+            case Oai_Const::VERB_LISTRECORDS:
+            case Oai_Const::VERB_LISTIDENTIFIERS:
+                /* for list requests, we need the complete list size */
+
+                $r = $this->_backend->metadataSelect(
                     true,
                     $this->_no_deleted,
                     false,
@@ -1118,118 +1061,117 @@ class Oai
                     $setSpec,
                     $oFrom,
                     $oUntil
-            );
-            $complete_list_size = $r->fetchColumn();
+                );
+                $complete_list_size = $r->fetchColumn();
 
-            /* The complete list is empty */
-            if (0 == $complete_list_size) {
-                throw new Oai_Exception(Oai_Const::ERROR_NO_RECORDS);
-            }
-
-            // no break
-        case Oai_Const::VERB_GETRECORD:
-
-            $r = $this->_backend->metadataSelect(
-                false,
-                $this->_no_deleted,
-                $identifier,
-                $metadataPrefix,
-                $setSpec,
-                $oFrom,
-                $oUntil,
-                $index,
-                $this->_repo_list_size,
-                (Oai_Const::VERB_LISTRECORDS == $verb || Oai_Const::VERB_GETRECORD == $verb)
-            );
-
-            $list_size = 0;
-
-            foreach ($r as $f) {
-                ++$list_size;
-
-                if ((Oai_Const::VERB_LISTRECORDS == $verb)
-                    || (Oai_Const::VERB_GETRECORD == $verb)
-                ) {
-                    $container = $this->_addChild($xverb, 'oai:record');
-                } else {
-                    $container = $xverb;
+                /* The complete list is empty */
+                if (0 == $complete_list_size) {
+                    throw new Oai_Exception(Oai_Const::ERROR_NO_RECORDS);
                 }
 
-                $header = $this->_addChild($container, 'oai:header');
-                $this->_addChild($header, 'oai:identifier', $f['identifier']);
-
-                $oDatestamp = self::_parseDate(
-                    $f['datestamp'],
-                    Oai_Const::ERROR_CANNOT_DISSEMINATE,
-                    'Incorrect date in metadata'
+                // no break
+            case Oai_Const::VERB_GETRECORD:
+                $r = $this->_backend->metadataSelect(
+                    false,
+                    $this->_no_deleted,
+                    $identifier,
+                    $metadataPrefix,
+                    $setSpec,
+                    $oFrom,
+                    $oUntil,
+                    $index,
+                    $this->_repo_list_size,
+                    Oai_Const::VERB_LISTRECORDS == $verb || Oai_Const::VERB_GETRECORD == $verb
                 );
-                $this->_addChild(
-                    $header,
-                    'oai:datestamp',
-                    $oDatestamp->toString($this->_repo_date_format)
-                );
 
-                /*
-                 * List of setSpec for this identifier
-                 *
-                 * 2011-06-06: enforce the following part of the OAI-PMH spec:
-                 *
-                 * "The list of setSpec elements should include only the minimum
-                 * number of setSpec elements required to specify the set
-                 * membership."
-                 */
+                $list_size = 0;
 
-                /* Retrieve sets, including redundant ones */
-                $allSets = array();
+                foreach ($r as $f) {
+                    ++$list_size;
 
-                $rs = $this->_backend->setSelect($f['identifier'], $metadataPrefix);
-                foreach ($rs as $fs) {
-                    $allSets[] = $fs['setSpec'];
-                }
-
-                /* Filter out redundant sets */
-                rsort($allSets);
-
-                $sets = array();
-                $prev = array();
-                foreach ($allSets as $oneSet) {
-                    $curr = explode(':', $oneSet);
-
-                    if ((count($curr) > count($prev))
-                        || (array_slice($prev, 0, count($curr)) !== $curr)
+                    if ((Oai_Const::VERB_LISTRECORDS == $verb)
+                        || (Oai_Const::VERB_GETRECORD == $verb)
                     ) {
-                        $sets[] = $oneSet;
-                        $prev = $curr;
+                        $container = $this->_addChild($xverb, 'oai:record');
+                    } else {
+                        $container = $xverb;
+                    }
+
+                    $header = $this->_addChild($container, 'oai:header');
+                    $this->_addChild($header, 'oai:identifier', $f['identifier']);
+
+                    $oDatestamp = self::_parseDate(
+                        $f['datestamp'],
+                        Oai_Const::ERROR_CANNOT_DISSEMINATE,
+                        'Incorrect date in metadata'
+                    );
+                    $this->_addChild(
+                        $header,
+                        'oai:datestamp',
+                        $oDatestamp->toString($this->_repo_date_format)
+                    );
+
+                    /*
+                     * List of setSpec for this identifier
+                     *
+                     * 2011-06-06: enforce the following part of the OAI-PMH spec:
+                     *
+                     * "The list of setSpec elements should include only the minimum
+                     * number of setSpec elements required to specify the set
+                     * membership."
+                     */
+
+                    /* Retrieve sets, including redundant ones */
+                    $allSets = [];
+
+                    $rs = $this->_backend->setSelect($f['identifier'], $metadataPrefix);
+                    foreach ($rs as $fs) {
+                        $allSets[] = $fs['setSpec'];
+                    }
+
+                    /* Filter out redundant sets */
+                    rsort($allSets);
+
+                    $sets = [];
+                    $prev = [];
+                    foreach ($allSets as $oneSet) {
+                        $curr = explode(':', $oneSet);
+
+                        if ((count($curr) > count($prev))
+                            || (array_slice($prev, 0, count($curr)) !== $curr)
+                        ) {
+                            $sets[] = $oneSet;
+                            $prev = $curr;
+                        }
+                    }
+
+                    /* Order by setName (not in OAI-PMH standard, though) */
+                    sort($sets);
+
+                    /* Generate XML subelements */
+                    foreach ($sets as $oneSet) {
+                        $this->_addChild($header, 'oai:setSpec', $oneSet);
+                    }
+
+                    /*
+                     * Deleted
+                     */
+                    if ($f['deleted']) {
+                        $header->setAttribute('status', 'deleted');
+                    } elseif ((Oai_Const::VERB_LISTRECORDS == $verb)
+                        || (Oai_Const::VERB_GETRECORD == $verb)
+                    ) {
+                        $metadata = $this->_addChild($container, 'oai:metadata');
+                        $this->_addFragment($metadata, $f['metadata']);
                     }
                 }
 
-                /* Order by setName (not in OAI-PMH standard, though) */
-                sort($sets);
-
-                /* Generate XML subelements */
-                foreach ($sets as $oneSet) {
-                    $this->_addChild($header, 'oai:setSpec', $oneSet);
+                /* No such record, or the complete list is empty */
+                if (!isset($oToken) && (0 == $list_size)) {
+                    throw new Oai_Exception(Oai_Const::ERROR_NO_RECORDS);
                 }
 
-                /*
-                 * Deleted
-                 */
-                if ($f['deleted']) {
-                    $header->setAttribute('status', 'deleted');
-                } elseif ((Oai_Const::VERB_LISTRECORDS == $verb)
-                    || (Oai_Const::VERB_GETRECORD == $verb)
-                ) {
-                    $metadata = $this->_addChild($container, 'oai:metadata');
-                    $this->_addFragment($metadata, $f['metadata']);
-                }
-            }
-
-            /* No such record, or the complete list is empty */
-            if (!isset($oToken) && (0 == $list_size)) {
-                throw new Oai_Exception(Oai_Const::ERROR_NO_RECORDS);
-            }
-
-            break;
+                break;
         }
 
         /*
@@ -1288,9 +1230,9 @@ class Oai
                 /* attribute: token expiration date in TZ format */
                 if (isset($this->_repo_token_duration)) {
                     $oDate = Oai_Date::createFromTimestamp(
-                            $this->_tokenExpirationTime($oToken),
-                            Oai_Const::FORMAT_DATETIME_TZ
-                        );
+                        $this->_tokenExpirationTime($oToken),
+                        Oai_Const::FORMAT_DATETIME_TZ
+                    );
                     $resumptionToken->setAttribute('expirationDate', $oDate->toString());
                 }
                 /* attribute: (approximate) size of the complete list */
@@ -1314,7 +1256,7 @@ class Oai
         ini_set('arg_separator.output', '&amp;');
         header('Content-Type: text/xml; charset=utf-8');
 
-        die($response);
+        exit($response);
     }
 
     /**
@@ -1415,7 +1357,7 @@ class Oai
             header('Status: 503 Service Temporarily Unavailable');
             header('Retry-After: 86400');
 
-            die(OAI_DEBUG == 1 ? $e->getMessage() : '');
+            exit(OAI_DEBUG == 1 ? $e->getMessage() : '');
         }
     }
 }

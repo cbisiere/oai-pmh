@@ -14,7 +14,7 @@
  */
 
 if (!defined('START')) {
-    die('Access denied.');
+    exit('Access denied.');
 }
 
 /*
@@ -40,7 +40,7 @@ define('OAI_DB_DATABASE', 'oai_repo');
 define('LIBRARY_PATH', realpath(dirname(__FILE__).'/../php'));
 
 (LIBRARY_PATH !== false)
-    or die('php source directory does not exist: check the config file');
+    or exit('php source directory does not exist: check the config file');
 
 spl_autoload_register(function ($class_name) {
     require LIBRARY_PATH.'/'.$class_name.'.php';

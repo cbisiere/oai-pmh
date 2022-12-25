@@ -116,9 +116,9 @@ class Oai_Connection extends PDO
      * Example: ($query, $par1, array($par2, $par3), $par4)) is equivalent to
      * ($query, $par1, $par2, $par3, $par4))
      *
-     * @throws Exception when the query cannot be parsed or executed
-     *
      * @return resource result resource
+     *
+     * @throws Exception when the query cannot be parsed or executed
      */
     public function execQuery()
     {
@@ -135,13 +135,7 @@ class Oai_Connection extends PDO
         }
 
         if (false === $result) {
-            throw new
-            Exception(
-                'SQL error: '
-                .$this->error()
-                .': '.$sql,
-                $this->errno()
-                );
+            throw new Exception('SQL error: '.$this->error().': '.$sql, $this->errno());
         }
 
         return $result;

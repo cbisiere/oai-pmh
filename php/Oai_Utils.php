@@ -27,9 +27,10 @@ class Oai_Utils
     public static function supported_encoding()
     {
         if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-            return array();
+            return [];
         }
-        return array_diff(array_map('trim', explode(',', $_SERVER['HTTP_ACCEPT_ENCODING'])), array('identity'));
+
+        return array_diff(array_map('trim', explode(',', $_SERVER['HTTP_ACCEPT_ENCODING'])), ['identity']);
     }
 
     /**
@@ -44,10 +45,10 @@ class Oai_Utils
     public static function flatten($e)
     {
         if (!is_array($e)) {
-            return array($e);
+            return [$e];
         }
 
-        $a = array();
+        $a = [];
         foreach ($e as $v) {
             $a = array_merge($a, self::flatten($v));
         }

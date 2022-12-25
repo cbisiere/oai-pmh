@@ -29,7 +29,7 @@ class Oai_Err
     {
         return in_array(
             $code,
-            array(
+            [
                 Oai_Const::ERROR_BAD_ARGUMENT,
                 Oai_Const::ERROR_BAD_TOKEN,
                 Oai_Const::ERROR_BAD_VERB,
@@ -38,7 +38,7 @@ class Oai_Err
                 Oai_Const::ERROR_NO_RECORDS,
                 Oai_Const::ERROR_NO_SETS,
                 Oai_Const::ERROR_UNKNOWN_ID,
-            )
+            ]
         );
     }
 
@@ -53,7 +53,7 @@ class Oai_Err
      */
     public static function getDefaultMessage($code)
     {
-        $message = array(
+        $message = [
             Oai_Const::ERROR_BAD_ARGUMENT => 'The request includes illegal arguments,'
                     .' is missing required arguments, includes'
                     .' a repeated argument, or values for arguments'
@@ -69,7 +69,7 @@ class Oai_Err
                     .' and set arguments results in an empty list',
             Oai_Const::ERROR_NO_METADATA => 'There are no metadata formats available for the specified item',
             Oai_Const::ERROR_NO_SETS => 'This repository does not support sets',
-        );
+        ];
 
         return isset($message[$code]) ? $message[$code] : false;
     }

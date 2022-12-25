@@ -165,9 +165,9 @@ class Oai_Date
      * @param string|false $format OAI supported date format, or false to use
      *                             the native format of the date
      *
-     * @throws Exception
-     *
      * @return string formated date
+     *
+     * @throws Exception
      */
     public function toString($format = false)
     {
@@ -178,17 +178,17 @@ class Oai_Date
         $time = (isset($this->_timepart) ? $this->_timepart : '00:00:00');
 
         switch ($format) {
-        case Oai_Const::FORMAT_DATE:
-            $string = $this->_datepart;
-            break;
-        case Oai_Const::FORMAT_DATETIME:
-            $string = $this->_datepart.' '.$time;
-            break;
-        case Oai_Const::FORMAT_DATETIME_TZ:
-            $string = $this->_datepart.'T'.$time.'Z';
-            break;
-        default:
-            throw new Exception("Invalid date format: $format");
+            case Oai_Const::FORMAT_DATE:
+                $string = $this->_datepart;
+                break;
+            case Oai_Const::FORMAT_DATETIME:
+                $string = $this->_datepart.' '.$time;
+                break;
+            case Oai_Const::FORMAT_DATETIME_TZ:
+                $string = $this->_datepart.'T'.$time.'Z';
+                break;
+            default:
+                throw new Exception("Invalid date format: $format");
         }
 
         return $string;

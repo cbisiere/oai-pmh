@@ -273,9 +273,9 @@ class Oai_Token
      *
      * @param string $strToken The token as a string
      *
-     * @throws Exception
-     *
      * @return mixed[] Elements of the decoded token
+     *
+     * @throws Exception
      */
     private static function _explode($strToken)
     {
@@ -319,14 +319,14 @@ class Oai_Token
             throw new Exception('Error decoding token: index is not an integer');
         }
 
-        return array(
+        return [
             $oDatestamp,
             $index,
             $metadataPrefix,
             $oFrom,
             $oUntil,
             $setSpec,
-        );
+        ];
     }
 
     /**
@@ -356,7 +356,7 @@ class Oai_Token
         $from = (isset($oFrom) ? $oFrom->toString() : false);
         $until = (isset($oUntil) ? $oUntil->toString() : false);
 
-        $arg = array($datestamp, $index, $metadataPrefix, $from, $until, $setSpec);
+        $arg = [$datestamp, $index, $metadataPrefix, $from, $until, $setSpec];
         $arg = array_map('Oai_Token::_encodeValue', $arg);
 
         $strToken = implode('|', $arg);

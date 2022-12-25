@@ -55,7 +55,7 @@ class Xml_Utils
     {
         foreach ($attrs as $k => $v) {
             $attrs[$k] = self::xmlSpecialChars($k)
-                .'='.'"'.self::xmlSpecialChars($v).'"';
+                .'="'.self::xmlSpecialChars($v).'"';
         }
 
         return '<'.$name.' '.implode(' ', $attrs).'/>';
@@ -73,7 +73,7 @@ class Xml_Utils
     {
         foreach ($attrs as $k => $v) {
             $attrs[$k] = self::xmlSpecialChars($k)
-                .'='.'"'.self::xmlSpecialChars($v).'"';
+                .'="'.self::xmlSpecialChars($v).'"';
         }
 
         return '<?'.$name.' '.implode(' ', $attrs).'?>';

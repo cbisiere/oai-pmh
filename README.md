@@ -127,7 +127,7 @@ DELETE FROM oai_repo.oai_item_set WHERE repo='demo';
 Before submitting a pull request, please check your code with:
 
 ```sh
-php-cs-fixer fix . --dry-run --diff --diff-format=udiff --rules=@Symfony
+php-cs-fixer fix . --dry-run --diff --rules=@Symfony
 ``` 
 
 You might also want to test that your changes do not break OAI compliance, using a validator, e.g.:

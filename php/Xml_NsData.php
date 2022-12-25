@@ -19,8 +19,8 @@ class Xml_NsData
     private $_xsd;					/* xsd prefix */
     private $_xsi;					/* xsi prefix */
 
-    private $_uri = array();		/* namespace uri per prefix */
-    private $_schema = array();		/* schema location per namespace uri */
+    private $_uri = [];		/* namespace uri per prefix */
+    private $_schema = [];		/* schema location per namespace uri */
 
     /**
      * Constructor.
@@ -63,7 +63,7 @@ class Xml_NsData
      */
     public function getAsAttrs()
     {
-        $attrs = array();
+        $attrs = [];
 
         /* namespace uris */
         foreach ($this->_uri as $prefix => $uri) {
@@ -72,7 +72,7 @@ class Xml_NsData
 
         /* namespace schema locations */
         if (count($this->_schema)) {
-            $loc = array();
+            $loc = [];
             foreach ($this->_schema as $uri => $schema) {
                 $loc[] = $uri.' '.$schema;
             }

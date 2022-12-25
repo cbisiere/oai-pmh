@@ -54,9 +54,9 @@ class Oai_Logger
      * Begin to log a new request: create a log record, and return its
      * record id.
      *
-     * @throws Exception when the record cannot be created
-     *
      * @return int
+     *
+     * @throws Exception when the record cannot be created
      */
     private function _beginRequestTask()
     {
@@ -183,7 +183,7 @@ class Oai_Logger
         Oai_Date $oUntil = null,
         Oai_Token $oToken = null
         ) {
-        $let = array();
+        $let = [];
 
         if (isset($verb)) {
             $let[] = 'request_verb = ?';
@@ -238,7 +238,7 @@ class Oai_Logger
      */
     public function storeRequestToken($token, $cursor)
     {
-        $let = array();
+        $let = [];
 
         if (isset($token)) {
             $let[] = 'response_token = ?';
@@ -268,7 +268,7 @@ class Oai_Logger
      */
     public function storeRequestError($code, $message)
     {
-        $let = array();
+        $let = [];
 
         if (isset($code)) {
             $let[] = 'response_error_code = ?';
@@ -298,7 +298,7 @@ class Oai_Logger
      */
     public function storeRequestResponse(Oai_Date $oDate, $response)
     {
-        $let = array();
+        $let = [];
 
         if (isset($oDate)) {
             $date = $oDate->toString(Oai_Const::FORMAT_DATETIME);

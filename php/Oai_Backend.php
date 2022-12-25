@@ -148,19 +148,19 @@ class Oai_Backend
         $limit = null,
         $withMetadata = false
     ) {
-        $and = array();
-        $arg = array();
+        $and = [];
+        $arg = [];
 
         /* FIXME: check DISTINCT */
         if ($count) {
             $what = 'COUNT(DISTINCT oai_item_meta.identifier, oai_item_meta.metadataPrefix)';
         } else {
-            $ret = array(
+            $ret = [
                     'oai_item_meta.identifier',
                     'oai_item_meta.metadataPrefix',
                     'datestamp', /* MAX() & GROUP BY */
                     'deleted',
-                );
+                ];
             if ($withMetadata) {
                 $ret[] = 'metadata';
             }
@@ -174,7 +174,7 @@ class Oai_Backend
          * set membership: inner join with (identifier, metadataPrefix) in the set
          */
         if (false !== $set) {
-            $and = array();
+            $and = [];
 
             $query .= ' JOIN (SELECT DISTINCT identifier, metadataPrefix FROM oai_item_set';
 
@@ -211,7 +211,7 @@ class Oai_Backend
             $query .= ') AS oai_item_set';
 
             if (false === $identifier || false === $metadataPrefix) {
-                $and = array();
+                $and = [];
 
                 if (false === $identifier) {
                     $and[] = 'oai_item_set.identifier = oai_item_meta.identifier';
@@ -224,7 +224,7 @@ class Oai_Backend
             }
         }
 
-        $and = array();
+        $and = [];
 
         $and[] = 'repo = ?';
         $arg[] = $this->_repo;
@@ -327,10 +327,10 @@ class Oai_Backend
 
         $result = $this->query(
             $query,
-            array(
+            [
                 $this->_repo,
                  $metadataPrefix,
-            )
+            ]
         );
 
         return $result->fetchColumn() > 0;
@@ -357,7 +357,7 @@ class Oai_Backend
         return $result->fetchColumn() > 0;
     }
 
-    /** Select repository identity data
+    /** Select repository identity data.
      *
      * This method should return a single record.
      *
@@ -370,7 +370,7 @@ class Oai_Backend
         return $this->query($query, $this->_repo);
     }
 
-    /** Select repository description records, if any
+    /** Select repository description records, if any.
      *
      * @return resource resource result
      */
@@ -422,7 +422,7 @@ class Oai_Backend
      */
     public function metadataPrefixArray()
     {
-        $all = array();
+        $all = [];
         $result = $this->metadataPrefixSelect();
 
         foreach ($result as $f) {
@@ -483,7 +483,7 @@ class Oai_Backend
      */
     public function setSpecArray()
     {
-        $all = array();
+        $all = [];
         $result = $this->setSpecSelect();
 
         foreach ($result as $f) {

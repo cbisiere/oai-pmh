@@ -158,7 +158,7 @@ class Xml_Element extends SimpleXMLElement
      */
     public function getChildren()
     {
-        $children = array();
+        $children = [];
         foreach ($this->children() as $child) {
             $children[] = $child;
         }
@@ -173,7 +173,7 @@ class Xml_Element extends SimpleXMLElement
      */
     public function getAttributes()
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($this->attributes() as $k => $v) {
             $attributes[$k] = (string) $v;
         }
@@ -192,7 +192,7 @@ class Xml_Element extends SimpleXMLElement
      * @return Xml_Element result of the transformation (may be null), or false
      *                     in case of failure
      */
-    public function transform($xslFile, $xslParameters = array())
+    public function transform($xslFile, $xslParameters = [])
     {
         $xml = null;
         $xslt = new XSLTProcessor();
