@@ -47,7 +47,7 @@ class Oai_Logger
      */
     private function _query()
     {
-        return $this->_connection->query(func_get_args());
+        return $this->_connection->execQuery(func_get_args());
     }
 
     /**

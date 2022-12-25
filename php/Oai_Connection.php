@@ -54,7 +54,7 @@ class Oai_Connection extends PDO
          *     expressed in UTC throughout the protocol.
          */
 
-        $this->query("SET time_zone = '+0:00'");
+        $this->execQuery("SET time_zone = '+0:00'");
         date_default_timezone_set('UTC');
 
         $this->_mtime = microtime(true);
@@ -120,7 +120,7 @@ class Oai_Connection extends PDO
      *
      * @return resource result resource
      */
-    public function query()
+    public function execQuery()
     {
         $args = Oai_Utils::flatten(func_get_args());
         $sql = array_shift($args);

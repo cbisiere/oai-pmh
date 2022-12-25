@@ -145,7 +145,7 @@ class Oai
 
         $limit = $f['maxListSize'];
         if (isset($limit)) {
-            if ((!ctype_digit($limit)) || ($limit <= 0)) {
+            if ((!ctype_digit((string)$limit)) || ($limit <= 0)) {
                 throw new
                     Exception('Corrupted data: maximum size of incomplete lists must be a positive integer');
             }
@@ -804,7 +804,7 @@ class Oai
      */
     private function _createElement($name, $value)
     {
-        return $this->_response->createElement($name, $value);
+        return $this->_response->createElement($name, $value ?? '');
     }
 
     /**

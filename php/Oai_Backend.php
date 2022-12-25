@@ -72,7 +72,7 @@ class Oai_Backend
      */
     public function query()
     {
-        return $this->_connection->query(func_get_args());
+        return $this->_connection->execQuery(func_get_args());
     }
 
     /*
@@ -376,7 +376,7 @@ class Oai_Backend
      */
     public function repoDescriptionSelect()
     {
-        $query = 'SELECT * FROM oai_repo_description WHERE repo = ? ORDER BY rank';
+        $query = 'SELECT * FROM oai_repo_description WHERE repo = ? ORDER BY `rank`';
 
         return $this->query($query, $this->_repo);
     }
@@ -448,7 +448,7 @@ class Oai_Backend
         $query = "SELECT {$what} FROM oai_set WHERE repo = ?";
 
         if (!$count) {
-            $query .= ' ORDER BY rank, setName';
+            $query .= ' ORDER BY `rank`, setName';
         }
 
         if (isset($index)) {
@@ -471,7 +471,7 @@ class Oai_Backend
     public function setDescriptionSelect($setSpec)
     {
         $query = 'SELECT * FROM oai_set_description'
-            .' WHERE repo = ? AND setSpec = ? ORDER BY rank';
+            .' WHERE repo = ? AND setSpec = ? ORDER BY `rank`';
 
         return $this->query($query, $this->_repo, $setSpec);
     }
