@@ -62,6 +62,22 @@ CREATE TABLE IF NOT EXISTS `oai_set` (
   `repo` varchar(12) NOT NULL DEFAULT '1',
   `setSpec` varchar(60) NOT NULL,
   `setName` tinytext NOT NULL,
+  `rank` int(11) NOT NULL DEFAULT '0',
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `comment` tinytext,
+
+  PRIMARY KEY (`repo`,`setSpec`),
+
+  FOREIGN KEY `fk_repo` (`repo`)
+    REFERENCES `oai_repo` (`id`)
+    ON DELETE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `oai_set_description` (
+  `repo` varchar(12) NOT NULL DEFAULT '1',
+  `setSpec` varchar(60) NOT NULL,
   `setDescription` text COMMENT 'xml',
   `rank` int(11) NOT NULL DEFAULT '0',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

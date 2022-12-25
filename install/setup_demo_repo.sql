@@ -11,11 +11,14 @@ INSERT IGNORE INTO `oai_repo_description` (`repo`, `description`, `rank`, `updat
 INSERT IGNORE INTO `oai_meta` (`repo`, `metadataPrefix`, `schema`, `metadataNamespace`, `updated`, `comment`) VALUES
 ('demo', 'oai_dc', 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd', 'http://www.openarchives.org/OAI/2.0/oai_dc/', '2017-08-11 09:13:43', 'oai_dc support is required by the OAI protocol. Do not change or remove.');
 
-INSERT IGNORE INTO `oai_set` (`repo`, `setSpec`, `setName`, `setDescription`, `rank`, `updated`, `comment`) VALUES
-('demo', 'music', 'Music collection', NULL, 0, '2017-08-11 09:30:24', NULL),
-('demo', 'video', 'Video Collection', NULL, 3, '2017-08-11 09:30:24', NULL),
-('demo', 'music:(elec)', 'Electronic Music Collection', '<oai_dc:dc xmlns:oai_dc=\"http://www.openarchives.org/OAI/2.0/oai_dc/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd\"><dc:description>This set contains metadata describing electronic music recordings made during the 1950ies</dc:description></oai_dc:dc>', 2, '2017-08-11 09:33:22', NULL),
-('demo', 'music:(muzak)', 'Muzak collection', NULL, 1, '2017-08-11 09:30:24', NULL);
+INSERT IGNORE INTO `oai_set` (`repo`, `setSpec`, `setName`, `rank`, `updated`, `comment`) VALUES
+('demo', 'music', 'Music collection', 0, '2017-08-11 09:30:24', NULL),
+('demo', 'video', 'Video Collection', 3, '2017-08-11 09:30:24', NULL),
+('demo', 'music:(elec)', 'Electronic Music Collection', 2, '2017-08-11 09:33:22', NULL),
+('demo', 'music:(muzak)', 'Muzak collection', 1, '2017-08-11 09:30:24', NULL);
+
+INSERT IGNORE INTO `oai_set_description` (`repo`, `setSpec`, `setDescription`, `rank`, `updated`, `comment`) VALUES
+('demo', 'music:(elec)', '<oai_dc:dc xmlns:oai_dc=\"http://www.openarchives.org/OAI/2.0/oai_dc/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd\"><dc:description>This set contains metadata describing electronic music recordings made during the 1950ies</dc:description></oai_dc:dc>', 1, '2017-08-11 09:33:22', NULL);
 
 INSERT IGNORE INTO `oai_item_meta` (`repo`, `history`, `serial`, `identifier`, `metadataPrefix`, `datestamp`, `deleted`, `metadata`, `created`, `updated`) VALUES
 ('demo', 0, 0, 'oai:lcoa1.loc.gov:loc.music/musdi.002', 'oai_dc', '2016-10-24 08:13:45', 0, '<?xml version=\"1.0\"?>\r\n<oai_dc:dc xmlns:oai_dc=\"http://www.openarchives.org/OAI/2.0/oai_dc/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd\"><dc:title>Opera Minora</dc:title><dc:creator>Cornelius Tacitus</dc:creator><dc:type>text</dc:type><dc:source>Opera Minora. Cornelius Tacitus. Henry Furneaux. Clarendon Press. Oxford. 1900.</dc:source><dc:language>latin</dc:language><dc:identifier>http://www.perseus.tufts.edu/cgi-bin/ptext?doc=Perseus:text:1999.02.0084</dc:identifier></oai_dc:dc>', '2016-10-20 16:49:28', '2017-08-11 09:43:24');
