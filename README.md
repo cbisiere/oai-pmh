@@ -20,7 +20,7 @@ TODO:
 ## Prerequisites
 
 * MySQL 5.7+
-* http server w/ PHP 5.4+
+* http server w/ PHP 7.0+
 
 ## Installation
 
