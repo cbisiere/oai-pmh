@@ -137,15 +137,15 @@ Therefore, the implementation of the update process is likely to be very specifi
 
 To help you build the specific solution that best fits your situation, you may use the class `Oai_Updater`. This class offers several abstract methods needed to update the repository. These abstract methods must be implemented in a derived class of your own:
 
-Abstract method  | Parameters   | Description
------------------|--------------|---------|------------
-`objects()`      | `$identifierArray`, `$from`, `$to`, `$noDeleted`, `$set`          | Return an array of iterable lists of source objects, where objects' primary keys in the source data are in `$identifierArray`, objects have been modified between  `$from`, `$to`, are not currently deleted (if `$noDeleted` is `true`), and belong to the set of SetSpec `$set`.
-`nextObject()` | `&$r` | Return the next source object from an iterable list of source objects `$r`.
-`metadata()` | `$f`, `$metadataPrefix` | Return a string containing the metadata of the source object `$f`, in format `$metadataPrefix`.
-`deleted()` | `$f` | Return `true` if the source object `$f` is currently deleted.
-`datestamp()` | `$f` | Return the modification date of the source object `$f`.
-`id()` | `$f` | Return the primary key of the source object `$f`.
-`identifier()` | `$id` | Return the OAI identifier of the corresponding to the primary key `$id`.
+| Abstract method  | Parameters   | Description   |
+|------------------|--------------|---------------|
+| `objects()`      | `$identifierArray`, `$from`, `$to`, `$noDeleted`, `$set` | Return an array of iterable lists of source objects, where objects' primary keys in the source data are in `$identifierArray`, objects have been modified between  `$from`, `$to`, are not currently deleted (if `$noDeleted` is `true`), and belong to the set of SetSpec `$set`. |
+| `nextObject()` | `&$r` | Return the next source object from an iterable list of source objects `$r`. |
+| `metadata()` | `$f`, `$metadataPrefix` | Return a string containing the metadata of the source object `$f`, in format `$metadataPrefix`. |
+| `deleted()` | `$f` | Return `true` if the source object `$f` is currently deleted. |
+| `datestamp()` | `$f` | Return the modification date of the source object `$f`. |
+| `id()` | `$f` | Return the primary key of the source object `$f`. |
+| `identifier()` | `$id` | Return the OAI identifier of the corresponding to the primary key `$id`. |
 
 
 ### Example
