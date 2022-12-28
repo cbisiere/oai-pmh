@@ -3,7 +3,7 @@
 /**
  * OAI protocol v2: helpers for namespace handling.
  *
- * PHP version 7.0+
+ * PHP version 7.1+
  *
  * @author   Christophe Bisière <christophe.bisiere@gmail.com>
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GNU GPL, version 3

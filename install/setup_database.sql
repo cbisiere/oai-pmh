@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS `oai_repo`;
 
 CREATE USER IF NOT EXISTS 'oai_user'@'localhost' IDENTIFIED BY 'demo';
-GRANT SELECT, INSERT, UPDATE ON `oai_repo`.* TO 'oai_user'@'localhost';
+GRANT SELECT, INSERT, DELETE, UPDATE ON `oai_repo`.* TO 'oai_user'@'localhost';
 
 
 USE oai_repo
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `oai_update_log` (
   `task` text,
   `date_start` datetime DEFAULT NULL,
   `date_end` datetime DEFAULT NULL,
-  `status` enum('commited','rolled back','commit failed','rollback failed') DEFAULT NULL,
+  `status` enum('committed','rolled back','commit failed','rollback failed') DEFAULT NULL,
   `error` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   `errno` int DEFAULT NULL,
   `errmsg` text,

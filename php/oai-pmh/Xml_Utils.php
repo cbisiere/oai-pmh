@@ -3,7 +3,7 @@
 /**
  * OAI protocol v2: various XML helpers.
  *
- * PHP version 7.0+
+ * PHP version 7.1+
  *
  * @author   Christophe Bisière <christophe.bisiere@gmail.com>
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GNU GPL, version 3
@@ -16,6 +16,9 @@
  */
 class Xml_Utils
 {
+    private const NS_XSI = 'http://www.w3.org/2001/XMLSchema-instance';
+    private const NS_XSD = 'http://www.w3.org/2001/XMLSchema';
+
     /**
      * Strip out from a UTF-8 string characters that are illegal in XML.
      *
@@ -40,7 +43,7 @@ class Xml_Utils
      */
     public static function xmlSpecialChars($str)
     {
-        return htmlspecialchars($str, ENT_XML1 | ENT_QUOTES | ENT_DISALLOWED, 'UTF-8'); /* requires php 5.4+ */
+        return htmlspecialchars($str, ENT_XML1 | ENT_QUOTES | ENT_DISALLOWED, 'UTF-8');
     }
 
     /**
@@ -80,7 +83,7 @@ class Xml_Utils
     }
 
     /**
-     * Return an element to use with new Xml_Element, with proper schema
+     * Return an element to use with new xml element, with proper schema
      * namespaces.
      *
      * @param string   $name  name of the xml element
@@ -91,8 +94,8 @@ class Xml_Utils
     public static function rootElement($name, $attrs)
     {
         if (isset($attrs['xsi:schemaLocation'])) {
-            $attrs['xmlns:xsd'] = NS_XSD;
-            $attrs['xmlns:xsi'] = NS_XSI;
+            $attrs['xmlns:xsd'] = self::NS_XSD;
+            $attrs['xmlns:xsi'] = self::NS_XSI;
         }
 
         return self::emptyElementAsString($name, $attrs);

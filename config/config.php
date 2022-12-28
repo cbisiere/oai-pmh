@@ -3,7 +3,7 @@
 /**
  * Local settings: constants to connect to the OAI repo.
  *
- * PHP version 7.0+
+ * PHP version 7.1+
  *
  * @author   Christophe Bisière <christophe.bisiere@gmail.com>
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GNU GPL, version 3
@@ -22,7 +22,7 @@ if (!defined('START')) {
  * (warning: may leak technical details)
  */
 
-define('OAI_DEBUG', 1);
+define('OAI_DEBUG', 0);
 
 /*
  * OAI database settings
@@ -33,15 +33,30 @@ define('OAI_DB_USERNAME', 'oai_user');
 define('OAI_DB_PASSWORD', 'demo');
 define('OAI_DB_DATABASE', 'oai_repo');
 
+/* path to the php source folders, relative to this config file */
+define('PHP_ROOT_PATH', realpath(dirname(__FILE__).'/../php'));
+/* subdirectories to look into for source files */
+define('PHP_DIRS', ['oai-pmh', 'oai-updater', 'demo-updater']);
+
 /*
- * Path to the php source folder, relative to this config file
+ * Class autoload
  */
 
-define('LIBRARY_PATH', realpath(dirname(__FILE__).'/../php'));
+(PHP_ROOT_PATH !== false)
+    or exit('OAI-PMH config error: source directory does not exist');
 
-(LIBRARY_PATH !== false)
-    or exit('php source directory does not exist: check the config file');
-
-spl_autoload_register(function ($class_name) {
-    require LIBRARY_PATH.'/'.$class_name.'.php';
-});
+/* try to locate and load a class */
+function load_class($class_name)
+{
+    $found = false;
+    foreach (PHP_DIRS as $dir) {
+        $path = PHP_ROOT_PATH.'/'.$dir.'/'.$class_name.'.php';
+        if (is_readable($path)) {
+            require $path;
+            $found = true;
+            break;
+        }
+    }
+    $found or exit('OAI-PMH config error: source file not found'.$class_name);
+}
+spl_autoload_register('load_class');

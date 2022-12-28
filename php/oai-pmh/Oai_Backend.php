@@ -3,7 +3,7 @@
 /**
  * OAI protocol v2: OAI backend.
  *
- * PHP version 7.0+
+ * PHP version 7.1+
  *
  * @author   Christophe Bisière <christophe.bisiere@gmail.com>
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GNU GPL, version 3
@@ -17,9 +17,9 @@
 class Oai_Backend
 {
     /** @var Oai_Connection Connection to the database */
-    private $_connection;
+    protected $_connection;
     /** @var string Id of the repository (oai_repo.id) */
-    private $_repo;
+    protected $_repo;
 
     /**
      * Constructor.
@@ -68,7 +68,7 @@ class Oai_Backend
      * @param string $query    sql query
      * @param mixed  $args,... parameters
      *
-     * @return resource result resource
+     * @return PDOStatement result resource
      */
     public function query()
     {
@@ -88,7 +88,7 @@ class Oai_Backend
      * @param string $identifier     identifier of the item to look for
      * @param string $metadataPrefix metadataprefix
      *
-     * @return resource resource result
+     * @return PDOStatement resource result
      */
     public function setSelect($identifier, $metadataPrefix)
     {
@@ -134,7 +134,7 @@ class Oai_Backend
      * @param int      $limit          maximum number of records in the result
      * @param bool     $withMetadata   also return metadata
      *
-     * @return resource result resource
+     * @return PDOStatement result resource
      */
     public function metadataSelect(
         $count = false,
@@ -361,7 +361,7 @@ class Oai_Backend
      *
      * This method should return a single record.
      *
-     * @return resource resource result
+     * @return PDOStatement resource result
      */
     public function repoSelect()
     {
@@ -372,7 +372,7 @@ class Oai_Backend
 
     /** Select repository description records, if any.
      *
-     * @return resource resource result
+     * @return PDOStatement resource result
      */
     public function repoDescriptionSelect()
     {
@@ -389,7 +389,7 @@ class Oai_Backend
      *
      * @param string $identifier identifier
      *
-     * @return resource resource result
+     * @return PDOStatement resource result
      */
     public function metadataPrefixSelect($identifier = false)
     {
@@ -439,7 +439,7 @@ class Oai_Backend
      * @param int  $index start index in the result, or maximum
      * @param int  $limit maximum number of records in the result
      *
-     * @return resource result resource
+     * @return PDOStatement result resource
      */
     public function setSpecSelect($count = false, $index = null, $limit = null)
     {
@@ -466,7 +466,7 @@ class Oai_Backend
      *
      * @param string $setSpec setspec for which we request the descriptions
      *
-     * @return resource result resource
+     * @return PDOStatement result resource
      */
     public function setDescriptionSelect($setSpec)
     {

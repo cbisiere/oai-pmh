@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Exec OAI requests.
+ * Update the OAI repository.
  *
  * PHP version 7.1+
  *
@@ -13,12 +13,12 @@ require_once '../config/config.php';
 
 define('REPO_ID', 'demo');
 
-/* OAI request on repository 1 */
-Oai::execRequest(
+/* OAI request on the demo repository */
+Oai_DemoUpdater::execRequest(
     OAI_DB_HOSTNAME,
     OAI_DB_USERNAME,
     OAI_DB_PASSWORD,
     OAI_DB_DATABASE,
     REPO_ID,
-    'xsl/oai2.xsl'
+    false
 );

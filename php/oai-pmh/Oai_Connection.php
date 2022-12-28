@@ -3,7 +3,7 @@
 /**
  * OAI protocol v2: OAI backend.
  *
- * PHP version 7.0+
+ * PHP version 7.1+
  *
  * @author   Christophe Bisière <christophe.bisiere@gmail.com>
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GNU GPL, version 3
@@ -116,7 +116,7 @@ class Oai_Connection extends PDO
      * Example: ($query, $par1, array($par2, $par3), $par4)) is equivalent to
      * ($query, $par1, $par2, $par3, $par4))
      *
-     * @return resource result resource
+     * @return PDOStatement result resource
      *
      * @throws Exception when the query cannot be parsed or executed
      */
@@ -126,18 +126,18 @@ class Oai_Connection extends PDO
         $sql = array_shift($args);
 
         if (0 == count($args)) {
-            $result = parent::query($sql);
+            $statement = parent::query($sql);
         } else {
-            $result = $this->prepare($sql);
-            if (false !== $result) {
-                $result->execute($args);
+            $statement = parent::prepare($sql);
+            if (false !== $statement) {
+                $statement->execute($args);
             }
         }
 
-        if (false === $result) {
+        if (false === $statement) {
             throw new Exception('SQL error: '.$this->error().': '.$sql, $this->errno());
         }
 
-        return $result;
+        return $statement;
     }
 }

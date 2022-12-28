@@ -3,7 +3,7 @@
 /**
  * OAI protocol v2: OAI logger.
  *
- * PHP version 7.0+
+ * PHP version 7.1+
  *
  * @author   Christophe Bisière <christophe.bisiere@gmail.com>
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GNU GPL, version 3
@@ -43,7 +43,7 @@ class Oai_Logger
      * @param string $query    sql query
      * @param mixed  $args,... parameters
      *
-     * @return resource result resource
+     * @return PDOStatement result resource
      */
     private function _query()
     {

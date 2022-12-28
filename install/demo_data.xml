@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<modsCollection xmlns="http://www.loc.gov/mods/v3">
+<mods ID="nash1950equilibrium">
+    <titleInfo>
+        <title>Equilibrium points in n-person games</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">John F.</namePart>
+        <namePart type="family">Nash</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1950</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="bibutilsgt">journal article</genre>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Proceedings of the National Academy of Sciences of the United States of America</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+            <publisher>National Academy of Sciences</publisher>
+        </originInfo>
+        <genre authority="marcgt">periodical</genre>
+        <genre authority="bibutilsgt">academic journal</genre>
+    </relatedItem>
+    <identifier type="citekey">nash1950equilibrium</identifier>
+    <part>
+        <date>1950</date>
+        <detail type="volume"><number>36</number></detail>
+        <detail type="issue"><number>1</number></detail>
+        <extent unit="page">
+            <start>48</start>
+            <end>49</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="nash1951noncooperative">
+    <titleInfo>
+        <title>Non-cooperative games</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">John F.</namePart>
+        <namePart type="family">Nash</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1951</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="bibutilsgt">journal article</genre>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>The Annals of Mathematics</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+            <publisher>JSTOR</publisher>
+        </originInfo>
+        <genre authority="marcgt">periodical</genre>
+        <genre authority="bibutilsgt">academic journal</genre>
+    </relatedItem>
+    <identifier type="citekey">nash1951noncooperative</identifier>
+    <part>
+        <date>1951</date>
+        <detail type="volume"><number>54</number></detail>
+        <detail type="issue"><number>2</number></detail>
+        <extent unit="page">
+            <start>286</start>
+            <end>295</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="nash1953twoperson">
+    <titleInfo>
+        <title>Two-person cooperative games</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">John F.</namePart>
+        <namePart type="family">Nash</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1953</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="bibutilsgt">journal article</genre>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Econometrica</title>
+            <subTitle>Journal of the Econometric Society</subTitle>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+            <publisher>Wiley Online Library</publisher>
+        </originInfo>
+        <genre authority="marcgt">periodical</genre>
+        <genre authority="bibutilsgt">academic journal</genre>
+    </relatedItem>
+    <identifier type="citekey">nash1953twoperson</identifier>
+    <part>
+        <date>1953</date>
+        <detail type="volume"><number>21</number></detail>
+        <detail type="issue"><number>1</number></detail>
+        <extent unit="page">
+            <start>128</start>
+            <end>140</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="nash1954bargaining">
+    <titleInfo>
+        <title>The Bargaining Problem</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">John F.</namePart>
+        <namePart type="family">Nash</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1954</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="bibutilsgt">journal article</genre>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Econometrica</title>
+            <subTitle>Journal of the Econometric Society</subTitle>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+            <publisher>Wiley Online Library</publisher>
+        </originInfo>
+        <genre authority="marcgt">periodical</genre>
+        <genre authority="bibutilsgt">academic journal</genre>
+    </relatedItem>
+    <identifier type="citekey">nash1954bargaining</identifier>
+    <part>
+        <date>1954</date>
+        <detail type="volume"><number>22</number></detail>
+        <detail type="issue"><number>1</number></detail>
+        <extent unit="page">
+            <start>155</start>
+            <end>162</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="nash1959contributions">
+    <titleInfo>
+        <title>The contributions of John von Neumann to game theory</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">John F.</namePart>
+        <namePart type="family">Nash</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1959</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="bibutilsgt">journal article</genre>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Halle Institute for Economic Research</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+            <publisher>JSTOR</publisher>
+        </originInfo>
+        <genre authority="marcgt">periodical</genre>
+        <genre authority="bibutilsgt">academic journal</genre>
+    </relatedItem>
+    <identifier type="citekey">nash1959contributions</identifier>
+    <part>
+        <date>1959</date>
+        <detail type="issue"><number>1</number></detail>
+        <extent unit="page">
+            <start>1</start>
+            <end>14</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="nash1960simplified">
+    <titleInfo>
+        <title>A Simplified Bargaining Model</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">John F.</namePart>
+        <namePart type="family">Nash</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1960</dateIssued>
+        <publisher>The RAND Corporation</publisher>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <genre>Technical Report</genre>
+    <genre authority="marcgt">technical report</genre>
+    <identifier type="citekey">nash1960simplified</identifier>
+    <part>
+        <detail type="number"><number>2</number></detail>
+    </part>
+</mods>
+</modsCollection>

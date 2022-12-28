@@ -3,7 +3,7 @@
 /**
  * OAI protocol v2: enhanced XML class.
  *
- * PHP version 7.0+
+ * PHP version 7.1+
  *
  * @author   Christophe Bisière <christophe.bisiere@gmail.com>
  * @license  http://www.gnu.org/licenses/gpl-3.0.txt GNU GPL, version 3
@@ -19,15 +19,15 @@ class Xml_Element extends SimpleXMLElement
     /**
      * add a child.
      *
-     * Invalid xml chars are stipped out.
+     * Invalid xml chars are stripped out.
      *
      * @param string $name  name of the element
      * @param string $value value of the element
      * @param string $ns    namespace
      *
-     * @return SimpleXMLElement child added to the node
+     * @return SimpleXMLElement|null child added to the node
      */
-    public function addChild($name, $value = null, $ns = null)
+    public function addChild($name, $value = null, $ns = null): ?SimpleXMLElement
     {
         if (isset($value)) {
             $value = Xml_Utils::utfToXml($value);
@@ -39,7 +39,7 @@ class Xml_Element extends SimpleXMLElement
     /**
      * insert CDATA into the current node.
      *
-     * Invalid xml chars are stipped out.
+     * Invalid xml chars are stripped out.
      *
      * FIXME: handle "]]>" in $cdata
      *
@@ -57,7 +57,7 @@ class Xml_Element extends SimpleXMLElement
     /**
      * add a child element, escaping its content.
      *
-     * The value has to be escaped, esp. because an ampercent in it
+     * The value has to be escaped, esp. because an ampersand in it
      * breaks addChild.
      *
      * @param string $name  name of the element
@@ -146,7 +146,7 @@ class Xml_Element extends SimpleXMLElement
      */
     public function appendChildren(SimpleXMLElement $xml)
     {
-        foreach ($xml->getChildren() as $child) {
+        foreach ($xml->getChildrenArray() as $child) {
             $this->append($child);
         }
     }
@@ -156,7 +156,7 @@ class Xml_Element extends SimpleXMLElement
      *
      * @return SimpleXMLElement[] Children
      */
-    public function getChildren()
+    public function getChildrenArray()
     {
         $children = [];
         foreach ($this->children() as $child) {
