@@ -3,7 +3,7 @@
 
 A simple OAI-PMH 2.0 server written in PHP. 
 
-##Features
+## Features
 
 - [x] [OAI v2](http://www.openarchives.org/OAI/openarchivesprotocol.html) compliant
 - [x] Multi-repositories
