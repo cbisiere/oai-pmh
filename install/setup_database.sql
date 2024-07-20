@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `oai_repo_description` (
 
   PRIMARY KEY (`repo`,`rank`),
 
-  FOREIGN KEY `fk_repo` (`repo`)
+  FOREIGN KEY `fk_oai_repo_description_oai_repo` (`repo`)
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `oai_meta` (
 
   PRIMARY KEY (`repo`,`metadataPrefix`),
 
-  FOREIGN KEY `fk_repo` (`repo`)
+  FOREIGN KEY `fk_oai_meta_oai_repo` (`repo`)
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `oai_set` (
 
   PRIMARY KEY (`repo`,`setSpec`),
 
-  FOREIGN KEY `fk_repo` (`repo`)
+  FOREIGN KEY `fk_oai_repo_set_oai_repo` (`repo`)
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `oai_set_description` (
 
   PRIMARY KEY (`repo`,`setSpec`),
 
-  FOREIGN KEY `fk_repo` (`repo`)
+  FOREIGN KEY `fk_oai_repo_set_description_oai_repo` (`repo`)
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
@@ -108,10 +108,10 @@ CREATE TABLE IF NOT EXISTS `oai_item_meta` (
 
   PRIMARY KEY (`repo`,`history`,`serial`,`identifier`,`metadataPrefix`),
 
-  FOREIGN KEY `fk_repo` (`repo`)
+  FOREIGN KEY `fk_oai_item_meta_oai_repo` (`repo`)
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE,
-  FOREIGN KEY `fk_repo_meta` (`repo`, `metadataPrefix`)
+  FOREIGN KEY `fk_oai_item_meta_oai_meta` (`repo`, `metadataPrefix`)
     REFERENCES `oai_meta` (`repo`, `metadataPrefix`)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -130,16 +130,16 @@ CREATE TABLE IF NOT EXISTS `oai_item_set` (
 
   PRIMARY KEY (`repo`,`history`,`serial`,`identifier`,`metadataPrefix`,`setSpec`),
 
-  FOREIGN KEY `fk_repo` (`repo`)
+  FOREIGN KEY `fk_oai_item_set_oai_repo` (`repo`)
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE,
-  FOREIGN KEY `fk_repo_meta` (`repo`, `metadataPrefix`)
+  FOREIGN KEY `fk_oai_item_set_oai_meta` (`repo`, `metadataPrefix`)
     REFERENCES `oai_meta` (`repo`, `metadataPrefix`)
     ON DELETE CASCADE,
-  FOREIGN KEY `fk_repo_set` (`repo`, `setSpec`)
+  FOREIGN KEY `fk_oai_item_set_oai_set` (`repo`, `setSpec`)
     REFERENCES `oai_set` (`repo`, `setSpec`)
     ON DELETE CASCADE,
-  FOREIGN KEY `fk_repo_item_meta` (`repo`, `identifier`, `metadataPrefix`)
+  FOREIGN KEY `fk_oai_item_set_oai_item_meta` (`repo`, `identifier`, `metadataPrefix`)
     REFERENCES `oai_item_meta` (`repo`, `identifier`, `metadataPrefix`)
     ON DELETE CASCADE
 
@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `oai_access_log` (
 
   PRIMARY KEY (`id`),
 
-  FOREIGN KEY `fk_repo` (`repo`)
+  FOREIGN KEY `fk_oai_access_log_oai_repo` (`repo`)
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `oai_update_log` (
 
   PRIMARY KEY (`id`),
 
-  FOREIGN KEY `fk_repo` (`repo`)
+  FOREIGN KEY `fk_oai_update_log_oai_repo` (`repo`)
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
