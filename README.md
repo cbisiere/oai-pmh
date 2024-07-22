@@ -56,7 +56,7 @@ Note that for now the base URL and request URL in this response are wrong, and a
 
 ## Uninstallation
 
-The following SQL statements wipes out the entire database and delete the associated user: 
+The following SQL statements wipes out the entire database and then delete the associated user: 
 
 ```sql
 DROP DATABASE IF EXISTS `oai_repo`;
@@ -85,7 +85,7 @@ The identifier of this repository in the database is `myrepo`. In that example, 
 
 To be able to browse this repository using a web browser, you need a custom PHP script. 
 
-The script `public/oai2.php` is customised for the `demo` repository. If you want to reuse it for your new repository, edit it and and change the line:
+The script `public/oai2.php` is customized for the `demo` repository. If you want to reuse it for your new repository, edit it and change the line:
 
 ```php
 define('REPO_ID', 'demo');
@@ -169,8 +169,7 @@ The XML file is `install/demo_data.xml`. It is a mods document containing `mods`
     </name>
     ...
 ```
-This document has been created using `bib2xml`. We observe that it lacks 
-schema location attributes and related namespaces, and that each `mods` element has an attribute `ID` that will serve as a primary key.
+This document has been created using `bib2xml`. We observe that it lacks schema location attributes and related namespaces, and that each `mods` element has an attribute `ID` that will serve as a primary key.
 
 Since the demo repository offers two metadata formats, `oai_dc` and `mods`, the example implementation generates `oai_dc` from `mods`, on-the-fly, using a transformation. An XSLT stylesheet to transform a mods document into a oai_dc document is available at the [MOD's Official Web Site](https://www.loc.gov/standards/mods/). To download the stylesheet where the updater will look for, do:
 
@@ -181,7 +180,7 @@ wget "https://www.loc.gov/standards/mods/v3/MODS3-7_DC_XSLT1-0.xsl"
 
 In the example implementation, a first derived class `Oai_XmlUpdater` handles the XML metadata formats by implementing the abstract method `metadata()`. This class is itself derived in a class `Oai_DemoUpdater` which implements the other abstract methods.
 
-Once the stylesheet has been dowloaded, the repository can be updated. The following URL updates the demo repository, adding five new publications from the file `demo_data.xml`, in both of the two supported metadata formats, assigning all the records to the set `pub:(econ)`:
+Once the stylesheet has been downloaded, the repository can be updated. The following URL updates the demo repository, adding five new publications from the file `demo_data.xml`, in both of the two supported metadata formats, assigning all the records to the set `pub:(econ)`:
 
 `http://localhost/oai-pmh/update_demo_repo.php?metadataPrefix=oai_dc,mods&set=pub:(econ)`
 
