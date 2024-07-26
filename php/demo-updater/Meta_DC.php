@@ -20,7 +20,7 @@ class Meta_DC extends Meta
      * Set the metadata by transforming a MODS document.
      *
      * See:
-     * https://www.loc.gov/standards/mods/v3/MODS3-7_DC_XSLT1-0.xsl
+     * https://www.loc.gov/standards/mods/v3/MODS3-8_DC_XSLT1-0.xsl
      *
      * @param Meta_MODS $oMetaMods the MODS document to transform
      */
@@ -29,7 +29,7 @@ class Meta_DC extends Meta
         $xmlMods = $oMetaMods->getXml();
 
         if (isset($xmlMods)) {
-            $xdc = $xmlMods->transform('./xsl/MODS3-7_DC_XSLT1-0.xsl');
+            $xdc = $xmlMods->transform('./xsl/MODS3-8_DC_XSLT1-0.xsl');
             $this->setXml($xdc);
         }
     }

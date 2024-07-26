@@ -175,7 +175,7 @@ Since the demo repository offers two metadata formats, `oai_dc` and `mods`, the 
 
 ```sh
 cd public/xsl
-wget "https://www.loc.gov/standards/mods/v3/MODS3-7_DC_XSLT1-0.xsl"
+wget "https://www.loc.gov/standards/mods/v3/MODS3-8_DC_XSLT1-0.xsl"
 ```
 
 In the example implementation, a first derived class `Oai_XmlUpdater` handles the XML metadata formats by implementing the abstract method `metadata()`. This class is itself derived in a class `Oai_DemoUpdater` which implements the other abstract methods.
