@@ -34,7 +34,7 @@ class Oai_Connection extends PDO
         $username,
         $password,
         $database
-        ) {
+    ) {
         /*
          * From:
          * http://www.openarchives.org/OAI/openarchivesprotocol.html#XMLResponse
@@ -89,7 +89,7 @@ class Oai_Connection extends PDO
      * @param string  $field  name of the field
      * @param mixed[] $values values
      *
-     *  @return string the clause
+     * @return string the clause
      */
     public static function inClause($field, $values)
     {

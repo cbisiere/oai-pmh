@@ -34,13 +34,13 @@ class Oai_Token
     /** @var string Index in the token */
     private $_index;
     /** @var string|null Metadata prefix */
-    private $_metadataPrefix = null;
+    private $_metadataPrefix;
     /** @var Oai_Date|null Date from */
-    private $_oFrom = null;
+    private $_oFrom;
     /** @var Oai_Date|null Date until */
-    private $_oUntil = null;
+    private $_oUntil;
     /** @var string|null Set spec */
-    private $_setSpec = null;
+    private $_setSpec;
 
     /**
      * Constuctor.
@@ -140,7 +140,7 @@ class Oai_Token
      * @param Oai_Date $oFrom The date that is to be set as the datefrom part
      *                        of the token
      */
-    public function setFrom(Oai_Date $oFrom = null)
+    public function setFrom(?Oai_Date $oFrom = null)
     {
         $this->_oFrom = $oFrom;
         $this->_dirty = true;
@@ -152,7 +152,7 @@ class Oai_Token
      * @param Oai_Date $oUntil The date that is to be set as the dateuntil part
      *                         of the token
      */
-    public function setUntil(Oai_Date $oUntil = null)
+    public function setUntil(?Oai_Date $oUntil = null)
     {
         $this->_oUntil = $oUntil;
         $this->_dirty = true;
@@ -348,8 +348,8 @@ class Oai_Token
         Oai_Date $oDatestamp,
         $index,
         $metadataPrefix,
-        Oai_Date $oFrom = null,		/* Needed to allow passing null */
-        Oai_Date $oUntil = null,	/* Needed to allow passing null */
+        ?Oai_Date $oFrom = null,		/* Needed to allow passing null */
+        ?Oai_Date $oUntil = null,	/* Needed to allow passing null */
         $setSpec = ''				/* Useless */
     ) {
         $datestamp = (isset($oDatestamp) ? $oDatestamp->toString() : false);

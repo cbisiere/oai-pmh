@@ -23,7 +23,7 @@ class Oai_Exception extends Exception
      * in Exception is a long, not a string.
      */
     /** @var string Error code */
-    private $_oaiCode = null;
+    private $_oaiCode;
 
     /**
      * Constructor.

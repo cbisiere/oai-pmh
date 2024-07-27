@@ -63,19 +63,19 @@ abstract class Oai_Updater
 
     /* timestamp interval of the source objects for which an update is requested */
     /** @var string iso 'from' timestamp date */
-    private $_from = null;
+    private $_from;
     /** @var string iso 'to' timestamp date */
-    private $_to = null;
+    private $_to;
 
     /* data that must be updated */
     /** @var array array of target metadata prefixes */
-    private $_metadataPrefixArray = null;
+    private $_metadataPrefixArray;
     /** @var array array of setspecs */
-    private $_setSpecArray = null;
+    private $_setSpecArray;
     /** @var array array of primary keys in the database */
-    private $_identifierArray = null;
+    private $_identifierArray;
     /** @var array array of OAI identifiers */
-    private $_oaiIdentifierArray = null;
+    private $_oaiIdentifierArray;
 
     /**
      * Constructor.
@@ -173,7 +173,7 @@ abstract class Oai_Updater
      * @param string $metadataPrefix requested metadata
      *
      * @return mixed array of strings, each one containing valid xml data, or
-     *               false if the record has no 'about' data  
+     *               false if the record has no 'about' data
      */
     abstract protected function about($f, $metadataPrefix);
 
@@ -265,7 +265,7 @@ abstract class Oai_Updater
                 );
 
                 /* and 'about' data */
-                $aboutArr = $this->about($f,$metadataPrefix);
+                $aboutArr = $this->about($f, $metadataPrefix);
                 foreach ($aboutArr as $n => $about) {
                     $this->_backend->aboutCreate(
                         $identifier,
@@ -275,7 +275,6 @@ abstract class Oai_Updater
                         $n + 1
                     );
                 }
-
             } catch (Exception $e) {
                 /*
                  * Duplicate entry
@@ -306,9 +305,9 @@ abstract class Oai_Updater
      * @throws Exception pass-through
      */
     private function _metadataUpdateOneWhenNecessary(
-            $identifier,
-            $f,
-            $metadataPrefix
+        $identifier,
+        $f,
+        $metadataPrefix
     ) {
         $datestamp = $this->datestamp($f);
 
@@ -617,11 +616,11 @@ abstract class Oai_Updater
         if (preg_match("/^-(\d+)Y$/", $param, $m)) {
             $year = 0 - $m[1];
 
-            /* -1M */
+        /* -1M */
         } elseif (preg_match("/^-(\d+)M$/", $param, $m)) {
             $month = 0 - $m[1];
 
-            /* -1D */
+        /* -1D */
         } elseif (preg_match("/^-(\d+)D$/", $param, $m)) {
             $day = 0 - $m[1];
         } else {

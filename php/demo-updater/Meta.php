@@ -19,8 +19,8 @@ class Meta
      * Properties
      */
 
-    private $_datestamp = null;		/* datestamp of the metadata */
-    private $_xml = null;			/* XML_Element */
+    private $_datestamp;		/* datestamp of the metadata */
+    private $_xml;			/* XML_Element */
 
     /*
      * constructors
@@ -40,7 +40,7 @@ class Meta
         $prefix = null,
         $ns = null,
         $version = null,
-        Xml_NsData $oNs = null
+        ?Xml_NsData $oNs = null
     ) {
         if (!isset($tag)) {
             $tag = 'root';

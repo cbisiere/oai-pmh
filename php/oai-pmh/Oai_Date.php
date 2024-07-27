@@ -15,13 +15,13 @@
 class Oai_Date
 {
     /** @var string|null String representation of the date */
-    private $_string = null;
+    private $_string;
     /** @var string|null Date format (see Oai_Const::FORMAT_*) */
-    private $_format = null;
+    private $_format;
     /** @var string|null Date part (format 'Y-m-d') */
-    private $_datepart = null;
+    private $_datepart;
     /** @var string|null Time part (format 'H:i:s') */
-    private $_timepart = null;
+    private $_timepart;
 
     /**
      * Constructor.

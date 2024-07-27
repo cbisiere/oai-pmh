@@ -65,9 +65,6 @@ class Oai_Backend
     /**
      * Submit a SQL query.
      *
-     * @param string $query    sql query
-     * @param mixed  $args,... parameters
-     *
      * @return PDOStatement result resource
      */
     public function query()
@@ -142,8 +139,8 @@ class Oai_Backend
         $identifier = false,
         $metadataPrefix = false,
         $set = false,
-        Oai_Date $oFrom = null,
-        Oai_Date $oUntil = null,
+        ?Oai_Date $oFrom = null,
+        ?Oai_Date $oUntil = null,
         $index = null,
         $limit = null,
         $withMetadata = false
@@ -156,11 +153,11 @@ class Oai_Backend
             $what = 'COUNT(DISTINCT oai_item_meta.identifier, oai_item_meta.metadataPrefix)';
         } else {
             $ret = [
-                    'oai_item_meta.identifier',
-                    'oai_item_meta.metadataPrefix',
-                    'datestamp', /* MAX() & GROUP BY */
-                    'deleted',
-                ];
+                'oai_item_meta.identifier',
+                'oai_item_meta.metadataPrefix',
+                'datestamp', /* MAX() & GROUP BY */
+                'deleted',
+            ];
             if ($withMetadata) {
                 $ret[] = 'metadata';
             }
@@ -329,7 +326,7 @@ class Oai_Backend
             $query,
             [
                 $this->_repo,
-                 $metadataPrefix,
+                $metadataPrefix,
             ]
         );
 

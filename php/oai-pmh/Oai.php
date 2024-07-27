@@ -56,11 +56,11 @@ class Oai
     /** @var string[] Arguments */
     private $_args = [];
     /** @var Oai_Token|null Continuation token */
-    private $_arg_token = null;
+    private $_arg_token;
     /** @var Oai_Date|null From date */
-    private $_arg_from = null;
+    private $_arg_from;
     /** @var Oai_Date|null Until date */
-    private $_arg_until = null;
+    private $_arg_until;
 
     /**
      * Repository info.
@@ -74,18 +74,18 @@ class Oai
     /** @var string Level of support for deletions */
     private $_repo_deletion_support;
     /** @var int|null Maximum size of an incomplete list */
-    private $_repo_list_size = null;
+    private $_repo_list_size;
     /** @var int|null Duration of the token, in sec. */
-    private $_repo_token_duration = null;
+    private $_repo_token_duration;
 
     /** @var string|null XSL stylesheet to use for the OAI response */
-    private $_stylesheet = null;
+    private $_stylesheet;
     /** @var DOMDocument|null OAI response */
-    private $_response = null;
+    private $_response;
     /** @var DOMElement|null OAI response date XML element */
-    private $_response_date = null;
+    private $_response_date;
     /** @var DOMElement|null OAI response root XML element */
-    private $_root = null;
+    private $_root;
 
     /** @var bool Ignore deleted records */
     private $_no_deleted = false;
@@ -424,8 +424,8 @@ class Oai
      * @throws Oai_Exception when the date is invalid
      */
     private function _checkDates(
-        Oai_Date $oFrom = null,
-        Oai_Date $oUntil = null,
+        ?Oai_Date $oFrom = null,
+        ?Oai_Date $oUntil = null,
         $err = Oai_Const::ERROR_BAD_ARGUMENT
     ) {
         if ((isset($oFrom)) && (isset($oUntil))) {

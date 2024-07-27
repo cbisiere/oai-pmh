@@ -150,7 +150,7 @@ class Oai_DemoUpdater extends Oai_XmlUpdater
      * @param string $metadataPrefix requested metadata
      *
      * @return mixed array of strings, each one containing valid xml data, or
-     *               false if the record has no 'about' data  
+     *               false if the record has no 'about' data
      */
     protected function about($f, $metadataPrefix)
     {
@@ -159,12 +159,11 @@ class Oai_DemoUpdater extends Oai_XmlUpdater
         $about = [];
 
         /* provenance */
-        if ($metadataPrefix == self::OAI_METADATA_PREFIX_OAI_DC 
-            || $metadataPrefix == self::OAI_METADATA_PREFIX_MODS) {
-
+        if (self::OAI_METADATA_PREFIX_OAI_DC == $metadataPrefix
+            || self::OAI_METADATA_PREFIX_MODS == $metadataPrefix) {
             $identifier = 'oai:'.$origin.':'.$this->id($f);
 
-            if ($metadataPrefix == self::OAI_METADATA_PREFIX_OAI_DC) {
+            if (self::OAI_METADATA_PREFIX_OAI_DC == $metadataPrefix) {
                 $namespace = 'http://www.openarchives.org/OAI/2.0/oai_dc/';
             } else {
                 $namespace = 'http://www.loc.gov/mods/v3';
@@ -189,6 +188,7 @@ EOT;
     <rightsReference ref="http://creativecommons.org/licenses/by-nd/2.0/rdf"/>
 </rights>
 EOT;
+
         return $about;
     }
 

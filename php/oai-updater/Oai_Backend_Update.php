@@ -39,9 +39,9 @@ class Oai_Backend_Update extends Oai_Backend
      * @var int    Number of set record inserted during the current update
      *             (oai_update_log.set_inserted)
      */
-    private $_update_serial_number = null;
-    private $_update_status = null;
-    private $_update_warning = null;
+    private $_update_serial_number;
+    private $_update_status;
+    private $_update_warning;
     private $_update_meta_deleted = 0;
     private $_update_meta_inserted = 0;
     private $_update_meta_touched = 0;
@@ -237,7 +237,7 @@ class Oai_Backend_Update extends Oai_Backend
         $identifier,
         $metadataPrefixArray,
         $setArray
-        ) {
+    ) {
         $and[] = 'repo = ?';
         $and[] = 'history = 0';
 
@@ -277,7 +277,7 @@ class Oai_Backend_Update extends Oai_Backend
         $identifier,
         $metadataPrefix,
         $setSpec
-        ) {
+    ) {
         $query = 'UPDATE oai_item_set'
             .' SET confirmed = confirmed + 1'
             .' WHERE repo = ?'
@@ -307,7 +307,7 @@ class Oai_Backend_Update extends Oai_Backend
         $identifier,
         $metadataPrefix,
         $setSpec
-        ) {
+    ) {
         $query = 'INSERT oai_item_set'
             .' (repo, history, serial, identifier, metadataPrefix, setSpec,'
             .' confirmed, created)'
@@ -433,8 +433,8 @@ class Oai_Backend_Update extends Oai_Backend
 
     /**
      * Delete a metadata record, as well as associated 'about' data if any.
-     * 
-     * Note: SQL triggers ensure 'about' data are properly deleted. 
+     *
+     * Note: SQL triggers ensure 'about' data are properly deleted.
      *
      * @param string $identifier     identifier of the item to look for
      * @param string $metadataPrefix metadataprefix
@@ -517,7 +517,7 @@ class Oai_Backend_Update extends Oai_Backend
         $metadataPrefix,
         $deleted,
         $metadata
-        ) {
+    ) {
         $query = 'SELECT COUNT(*) FROM oai_item_meta'
             .' WHERE repo = ?'
             .' AND history = 0'
@@ -557,14 +557,14 @@ class Oai_Backend_Update extends Oai_Backend
         $datestamp,
         $about,
         $rank
-        ) {
+    ) {
         $query = 'INSERT oai_item_meta_about'
         .' (`repo`,`serial`,`identifier`,`metadataPrefix`,`datestamp`,'
         .' `about`,`rank`,`created`)'
         .' VALUES'
-        . '(?,?,?,?,?,?,?,?)';
+        .'(?,?,?,?,?,?,?,?)';
 
-        $this->query($query, 
+        $this->query($query,
             $this->_repo,
             $this->_update_serial_number,
             $identifier,
@@ -591,27 +591,27 @@ class Oai_Backend_Update extends Oai_Backend
         $datestamp,
         $deleted,
         $metadata
-        ) {
+    ) {
         $var = [
-                'repo',
-                'serial',
-                'identifier',
-                'metadataPrefix',
-                'datestamp',
-                'deleted',
-                'created',
-            ];
+            'repo',
+            'serial',
+            'identifier',
+            'metadataPrefix',
+            'datestamp',
+            'deleted',
+            'created',
+        ];
         $fmt = ['?', '?', '?', '?', '?', '?', '?'];
 
         $arg = [
-                $this->_repo,
-                $this->_update_serial_number,
-                $identifier,
-                $metadataPrefix,
-                $this->getRunDate(),
-                $deleted ? 1 : 0,
-                $this->getRunDate(),
-            ];
+            $this->_repo,
+            $this->_update_serial_number,
+            $identifier,
+            $metadataPrefix,
+            $this->getRunDate(),
+            $deleted ? 1 : 0,
+            $this->getRunDate(),
+        ];
 
         if (!$deleted) {
             $var[] = 'metadata';

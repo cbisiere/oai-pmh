@@ -32,16 +32,13 @@ class Oai_Logger
     public function __construct(
         Oai_Connection $connection,
         $repo
-        ) {
+    ) {
         $this->_connection = $connection;
         $this->_repo = $repo;
     }
 
     /**
      * Submit a SQL query.
-     *
-     * @param string $query    sql query
-     * @param mixed  $args,... parameters
      *
      * @return PDOStatement result resource
      */
@@ -179,10 +176,10 @@ class Oai_Logger
         $prefix,
         $set,
         $identifier,
-        Oai_Date $oFrom = null,
-        Oai_Date $oUntil = null,
-        Oai_Token $oToken = null
-        ) {
+        ?Oai_Date $oFrom = null,
+        ?Oai_Date $oUntil = null,
+        ?Oai_Token $oToken = null
+    ) {
         $let = [];
 
         if (isset($verb)) {
