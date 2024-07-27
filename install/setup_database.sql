@@ -22,13 +22,13 @@ CREATE TABLE IF NOT EXISTS `oai_repo` (
   `comment` tinytext,
 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `oai_repo_description` (
   `repo` varchar(12) NOT NULL DEFAULT '1',
   `description` text COMMENT 'xml',
-  `rank` int(11) NOT NULL DEFAULT '0',
+  `rank` int NOT NULL DEFAULT '0',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `comment` tinytext,
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `oai_repo_description` (
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `oai_meta` (
@@ -55,14 +55,14 @@ CREATE TABLE IF NOT EXISTS `oai_meta` (
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `oai_set` (
   `repo` varchar(12) NOT NULL DEFAULT '1',
   `setSpec` varchar(60) NOT NULL,
   `setName` tinytext NOT NULL,
-  `rank` int(11) NOT NULL DEFAULT '0',
+  `rank` int NOT NULL DEFAULT '0',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `comment` tinytext,
 
@@ -72,14 +72,14 @@ CREATE TABLE IF NOT EXISTS `oai_set` (
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `oai_set_description` (
   `repo` varchar(12) NOT NULL DEFAULT '1',
   `setSpec` varchar(60) NOT NULL,
   `setDescription` text COMMENT 'xml',
-  `rank` int(11) NOT NULL DEFAULT '0',
+  `rank` int NOT NULL DEFAULT '0',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `comment` tinytext,
 
@@ -89,17 +89,17 @@ CREATE TABLE IF NOT EXISTS `oai_set_description` (
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `oai_item_meta` (
   `repo` varchar(12) NOT NULL DEFAULT '1',
-  `history` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `history` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `serial` int UNSIGNED NOT NULL DEFAULT '0',
   `identifier` varchar(200) NOT NULL,
   `metadataPrefix` varchar(20) NOT NULL,
   `datestamp` datetime NOT NULL,
-  `deleted` tinyint(1) NOT NULL,
+  `deleted` tinyint NOT NULL,
   `metadata` text COMMENT 'xml',
   `created` datetime NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -115,18 +115,18 @@ CREATE TABLE IF NOT EXISTS `oai_item_meta` (
     REFERENCES `oai_meta` (`repo`, `metadataPrefix`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `oai_item_meta_about` (
   `repo` varchar(12) NOT NULL DEFAULT '1',
-  `history` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `history` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `serial` int UNSIGNED NOT NULL DEFAULT '0',
   `identifier` varchar(200) NOT NULL,
   `metadataPrefix` varchar(20) NOT NULL,
   `datestamp` datetime NOT NULL,
   `about` text COMMENT 'xml',
-  `rank` int(11) NOT NULL DEFAULT '0',
+  `rank` int NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `oai_item_meta_about` (
     REFERENCES `oai_item_meta` (`repo`, `identifier`, `metadataPrefix`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 /* soft-delete corresponding 'about' records when a metadata record is 
  archived  */
@@ -166,7 +166,7 @@ DELIMITER ;
 
 CREATE TABLE IF NOT EXISTS `oai_item_set` (
   `repo` varchar(12) NOT NULL DEFAULT '1',
-  `history` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `history` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `serial` int UNSIGNED NOT NULL DEFAULT '0',
   `identifier` varchar(200) NOT NULL,
   `metadataPrefix` varchar(20) NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `oai_item_set` (
     REFERENCES `oai_item_meta` (`repo`, `identifier`, `metadataPrefix`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `oai_access_log` (
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `oai_access_log` (
   `date_start` datetime DEFAULT NULL,
   `date_end` datetime DEFAULT NULL,
   `duration` double DEFAULT NULL,
-  `error` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `error` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `errno` int DEFAULT NULL,
   `errmsg` text,
   `request_verb` varchar(20) DEFAULT NULL,
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `oai_access_log` (
   `response_error_code` varchar(25) DEFAULT NULL,
   `response_error_message` text,
   `response_token` text,
-  `response_cursor` int(11) DEFAULT NULL,
+  `response_cursor` int DEFAULT NULL,
   `response` text,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -229,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `oai_access_log` (
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `oai_update_log` (
@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `oai_update_log` (
   `date_start` datetime DEFAULT NULL,
   `date_end` datetime DEFAULT NULL,
   `status` enum('committed','rolled back','commit failed','rollback failed') DEFAULT NULL,
-  `error` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `error` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `errno` int DEFAULT NULL,
   `errmsg` text,
   `warning` text,
@@ -256,4 +256,4 @@ CREATE TABLE IF NOT EXISTS `oai_update_log` (
     REFERENCES `oai_repo` (`id`)
     ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=Utf8mb4;
