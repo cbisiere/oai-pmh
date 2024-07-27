@@ -144,6 +144,55 @@ class Oai_DemoUpdater extends Oai_XmlUpdater
     }
 
     /**
+     * Return 'about' data for a given record, as an array of strings, or false.
+     *
+     * @param mixed  $f              the source object
+     * @param string $metadataPrefix requested metadata
+     *
+     * @return mixed array of strings, each one containing valid xml data, or
+     *               false if the record has no 'about' data  
+     */
+    protected function about($f, $metadataPrefix)
+    {
+        $origin = 'another.demo.org';
+
+        $about = [];
+
+        /* provenance */
+        if ($metadataPrefix == self::OAI_METADATA_PREFIX_OAI_DC 
+            || $metadataPrefix == self::OAI_METADATA_PREFIX_MODS) {
+
+            $identifier = 'oai:'.$origin.':'.$this->id($f);
+
+            if ($metadataPrefix == self::OAI_METADATA_PREFIX_OAI_DC) {
+                $namespace = 'http://www.openarchives.org/OAI/2.0/oai_dc/';
+            } else {
+                $namespace = 'http://www.loc.gov/mods/v3';
+            }
+            $about[] = <<<EOT
+<?xml version="1.0"?>
+<provenance xmlns="http://www.openarchives.org/OAI/2.0/provenance" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/provenance http://www.openarchives.org/OAI/2.0/provenance.xsd">
+    <originDescription harvestDate="2024-07-25T14:10:02Z" altered="true">
+        <baseURL>http://{$origin}</baseURL>
+        <identifier>{$identifier}</identifier>
+        <datestamp>2002-01-01</datestamp>
+        <metadataNamespace>{$namespace}</metadataNamespace>
+    </originDescription>
+</provenance>
+EOT;
+        }
+
+        /* rights */
+        $about[] = <<<EOT
+<?xml version="1.0"?>
+<rights xmlns="http://www.openarchives.org/OAI/2.0/rights/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/rights/ http://www.openarchives.org/OAI/2.0/rights.xsd">
+    <rightsReference ref="http://creativecommons.org/licenses/by-nd/2.0/rdf"/>
+</rights>
+EOT;
+        return $about;
+    }
+
+    /**
      * Fetch a source object from a set of source objects.
      *
      * Since a set of objects is an array of xml elements, we return

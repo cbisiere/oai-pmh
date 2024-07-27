@@ -167,6 +167,17 @@ abstract class Oai_Updater
     abstract protected function metadata($f, $metadataPrefix);
 
     /**
+     * Return 'about' data for a given record, as an array of strings, or false.
+     *
+     * @param mixed  $f              the source object
+     * @param string $metadataPrefix requested metadata
+     *
+     * @return mixed array of strings, each one containing valid xml data, or
+     *               false if the record has no 'about' data  
+     */
+    abstract protected function about($f, $metadataPrefix);
+
+    /**
      * Fetch a source object from an iterable list of source objects.
      *
      * @param mixed $r the iterable list of source objects
@@ -213,6 +224,7 @@ abstract class Oai_Updater
      * a warning is emitted.
      *
      * @param string $identifier     OAI identifier
+     * @param mixed  $f              the source object
      * @param string $metadataPrefix metadataprefix
      * @param string $datestamp      datestamp of the source object
      * @param bool   $deleted        delete status
@@ -222,6 +234,7 @@ abstract class Oai_Updater
      */
     private function _metadataUpdateOne(
         $identifier,
+        $f,
         $metadataPrefix,
         $datestamp,
         $deleted,
@@ -250,6 +263,19 @@ abstract class Oai_Updater
                     $deleted,
                     $metadata
                 );
+
+                /* and 'about' data */
+                $aboutArr = $this->about($f,$metadataPrefix);
+                foreach ($aboutArr as $n => $about) {
+                    $this->_backend->aboutCreate(
+                        $identifier,
+                        $metadataPrefix,
+                        $datestamp,
+                        $about,
+                        $n + 1
+                    );
+                }
+
             } catch (Exception $e) {
                 /*
                  * Duplicate entry
@@ -316,6 +342,7 @@ abstract class Oai_Updater
              */
             $this->_metadataUpdateOne(
                 $identifier,
+                $f,
                 $metadataPrefix,
                 $datestamp,
                 $metadataDeleted,

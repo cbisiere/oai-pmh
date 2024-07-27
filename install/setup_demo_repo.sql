@@ -63,7 +63,41 @@ INSERT IGNORE INTO `oai_item_meta` (`repo`, `history`, `serial`, `identifier`, `
     </mods:part></mods:mods>
 ', '2022-12-27 19:22:58', '2022-12-27 19:22:58');
 
-
+INSERT INTO `oai_item_meta_about` (`repo`, `history`, `serial`, `identifier`, `metadataPrefix`, `datestamp`, `about`, `rank`, `created`, `updated`) VALUES
+('demo', 0, 0, 'oai:demo.org:nash1950equilibrium', 'oai_dc', '2024-07-25 13:56:06', 
+'<?xml version="1.0"?>
+<provenance xmlns=\"http://www.openarchives.org/OAI/2.0/provenance\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/provenance http://www.openarchives.org/OAI/2.0/provenance.xsd\">
+    <originDescription harvestDate=\"2024-07-25T14:10:02Z\" altered=\"true\">
+        <baseURL>http://another.demo.org</baseURL>
+        <identifier>oai:another.demo.org:nash1950equilibrium</identifier>
+        <datestamp>2002-01-01</datestamp>
+        <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/</metadataNamespace>
+    </originDescription>
+</provenance>
+', 1, '2024-07-25 13:56:06', '2024-07-25 14:22:32'),
+('demo', 0, 0, 'oai:demo.org:nash1950equilibrium', 'oai_dc', '2024-07-25 14:16:17',
+'<?xml version="1.0"?>
+<rights xmlns=\"http://www.openarchives.org/OAI/2.0/rights/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/rights/ http://www.openarchives.org/OAI/2.0/rights.xsd\">
+    <rightsReference ref=\"http://creativecommons.org/licenses/by-nd/2.0/rdf\"/>
+</rights>
+', 2, '2024-07-25 14:16:17', '2024-07-25 14:16:56'),
+('demo', 0, 0, 'oai:demo.org:nash1950equilibrium', 'mods', '2024-07-25 13:56:06', 
+'<?xml version="1.0"?>
+<provenance xmlns=\"http://www.openarchives.org/OAI/2.0/provenance\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/provenance http://www.openarchives.org/OAI/2.0/provenance.xsd\">
+    <originDescription harvestDate=\"2024-07-25T14:10:02Z\" altered=\"true\">
+        <baseURL>http://another.demo.org</baseURL>
+        <identifier>oai:another.demo.org:nash1950equilibrium</identifier>
+        <datestamp>2002-01-01</datestamp>
+        <metadataNamespace>http://www.loc.gov/mods/v3</metadataNamespace>
+    </originDescription>
+</provenance>
+', 1, '2024-07-25 13:56:06', '2024-07-25 14:22:32'),
+('demo', 0, 0, 'oai:demo.org:nash1950equilibrium', 'mods', '2024-07-25 14:16:17',
+'<?xml version="1.0"?>
+<rights xmlns=\"http://www.openarchives.org/OAI/2.0/rights/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/rights/ http://www.openarchives.org/OAI/2.0/rights.xsd\">
+    <rightsReference ref=\"http://creativecommons.org/licenses/by-nd/2.0/rdf\"/>
+</rights>
+', 2, '2024-07-25 14:16:17', '2024-07-25 14:16:56');
 
 INSERT IGNORE INTO `oai_item_set` (`repo`, `history`, `serial`, `identifier`, `metadataPrefix`, `setSpec`, `confirmed`, `created`, `updated`) VALUES
 ('demo', 0, 0, 'oai:demo.org:nash1950equilibrium', 'oai_dc', 'pub:(econ)', 1, '2022-12-27 19:22:58', '2022-12-27 19:22:58'),

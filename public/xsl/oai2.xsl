@@ -8,6 +8,10 @@
 
   v1.1
 
+  Minot addition (oai:about) by Christophe Bisière
+
+  v1.2
+
 -->
 
 <!-- 
@@ -498,11 +502,6 @@ p.intro {
   </xsl:if>
 </xsl:template>
 
-
-<xsl:template match="oai:about">
-  <p>"about" part of record container not supported by the XSL</p>
-</xsl:template>
-
 <xsl:template match="oai:metadata">
   &#160;
   <div class="metadata">
@@ -510,6 +509,20 @@ p.intro {
   </div>
 </xsl:template>
 
+<xsl:template match="oai:about[1]">
+  <h3>About this Record</h3>
+  <xsl:apply-templates select="*" />
+</xsl:template>
+
+
+
+<!-- oai about object -->
+
+<xsl:template match="oai:about/*">
+  <div class="xmlSource">
+    <xsl:apply-templates select="." mode='xmlMarkup' />
+  </div>
+</xsl:template>
 
 
 
@@ -639,6 +652,9 @@ p.intro {
 	border: solid #c0c0a0 1px;
 	background-color: #ffffe0;
 	padding: 2em 2em 2em 0em;
+}
+.xmlSource + .xmlSource {
+  margin-top: 1em;
 }
 .xmlBlock {
 	padding-left: 2em;

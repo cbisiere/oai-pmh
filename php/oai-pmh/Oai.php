@@ -1163,6 +1163,13 @@ class Oai
                     ) {
                         $metadata = $this->_addChild($container, 'oai:metadata');
                         $this->_addFragment($metadata, $f['metadata']);
+
+                        /* 'about' data for this record */
+                        $ra = $this->_backend->aboutSelect($f['identifier'], $metadataPrefix);
+                        foreach ($ra as $fa) {
+                            $about = $this->_addChild($container, 'oai:about');
+                            $this->_addFragment($about, $fa['about']);
+                        }
                     }
                 }
 

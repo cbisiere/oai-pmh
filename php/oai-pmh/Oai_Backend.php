@@ -382,6 +382,35 @@ class Oai_Backend
     }
 
     /**
+     * Select 'about' data about a metadata record.
+     *
+     * About records are returned ordered by rank. Not part of the spec.
+     *
+     * @param string $identifier     identifier of the item to look for
+     * @param string $metadataPrefix metadataprefix
+     *
+     * @return PDOStatement resource result
+     */
+    public function aboutSelect($identifier, $metadataPrefix)
+    {
+        $query = 'SELECT DISTINCT about'
+            .' FROM oai_item_meta_about'
+            .' WHERE repo = ?'
+            .' AND history = 0'
+            .' AND identifier = ?'
+            .' AND metadataPrefix = ?'
+            .' ORDER BY `rank`';
+        $result = $this->query(
+            $query,
+            $this->_repo,
+            $identifier,
+            $metadataPrefix
+        );
+
+        return $result;
+    }
+
+    /**
      * Select supported metadataPrefix available for an identifier.
      *
      * MetadataPrefix are alphabetically ordered. This is not part of the specs,

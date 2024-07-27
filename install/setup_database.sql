@@ -114,8 +114,55 @@ CREATE TABLE IF NOT EXISTS `oai_item_meta` (
   FOREIGN KEY `fk_oai_item_meta_oai_meta` (`repo`, `metadataPrefix`)
     REFERENCES `oai_meta` (`repo`, `metadataPrefix`)
     ON DELETE CASCADE
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE IF NOT EXISTS `oai_item_meta_about` (
+  `repo` varchar(12) NOT NULL DEFAULT '1',
+  `history` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `serial` int UNSIGNED NOT NULL DEFAULT '0',
+  `identifier` varchar(200) NOT NULL,
+  `metadataPrefix` varchar(20) NOT NULL,
+  `datestamp` datetime NOT NULL,
+  `about` text COMMENT 'xml',
+  `rank` int(11) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  INDEX `idx_repo_item_meta_about` (`repo`,`identifier`,`metadataPrefix`,`rank`),
+
+  PRIMARY KEY (`repo`,`history`,`serial`,`identifier`,`metadataPrefix`,`rank`),
+
+  FOREIGN KEY `fk_oai_item_meta_about_oai_repo` (`repo`)
+    REFERENCES `oai_repo` (`id`)
+    ON DELETE CASCADE,
+  FOREIGN KEY `fk_oai_item_meta_about_oai_meta` (`repo`, `metadataPrefix`)
+    REFERENCES `oai_meta` (`repo`, `metadataPrefix`)
+    ON DELETE CASCADE,
+  FOREIGN KEY `fk_oai_item_meta_about_oai_item_meta` (`repo`, `identifier`, `metadataPrefix`)
+    REFERENCES `oai_item_meta` (`repo`, `identifier`, `metadataPrefix`)
+    ON DELETE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* soft-delete corresponding 'about' records when a metadata record is 
+ archived  */
+DELIMITER $$
+CREATE TRIGGER trigger_oai_about_soft_delete
+AFTER UPDATE ON `oai_item_meta` FOR EACH ROW
+BEGIN
+  IF (OLD.`history` = 0) AND (NEW.`history` = 1) THEN
+    UPDATE `oai_item_meta_about` 
+      SET `history` = 1 
+      WHERE `repo` = NEW.`repo` 
+        AND `history` = 0
+        AND `identifier` = NEW.`identifier`
+        AND `metadataPrefix` = NEW.`metadataPrefix`;
+  END IF;
+END;
+$$
+DELIMITER ;
 
 CREATE TABLE IF NOT EXISTS `oai_item_set` (
   `repo` varchar(12) NOT NULL DEFAULT '1',

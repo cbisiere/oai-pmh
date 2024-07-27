@@ -432,7 +432,9 @@ class Oai_Backend_Update extends Oai_Backend
     }
 
     /**
-     * Delete a metadata record.
+     * Delete a metadata record, as well as associated 'about' data if any.
+     * 
+     * Note: SQL triggers ensure 'about' data are properly deleted. 
      *
      * @param string $identifier     identifier of the item to look for
      * @param string $metadataPrefix metadataprefix
@@ -538,6 +540,40 @@ class Oai_Backend_Update extends Oai_Backend
         $res = $this->query($query, $arg);
 
         return $res->fetchColumn() > 0;
+    }
+
+    /**
+     * Create a 'about' record.
+     *
+     * @param string $identifier     OAI identifier
+     * @param string $metadataPrefix metadataprefix
+     * @param string $datestamp      datestamp of the source object
+     * @param string $about          about data as string
+     * @param int    $rank           rank within the same metadata record
+     */
+    public function aboutCreate(
+        $identifier,
+        $metadataPrefix,
+        $datestamp,
+        $about,
+        $rank
+        ) {
+        $query = 'INSERT oai_item_meta_about'
+        .' (`repo`,`serial`,`identifier`,`metadataPrefix`,`datestamp`,'
+        .' `about`,`rank`,`created`)'
+        .' VALUES'
+        . '(?,?,?,?,?,?,?,?)';
+
+        $this->query($query, 
+            $this->_repo,
+            $this->_update_serial_number,
+            $identifier,
+            $metadataPrefix,
+            $this->getRunDate(),
+            $about,
+            $rank,
+            $this->getRunDate()
+        );
     }
 
     /**
